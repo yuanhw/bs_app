@@ -66,7 +66,7 @@ public class Login extends Activity {
             @Override
             public void onClick(View v) {
                 if (validate()) {
-                    Login.this.sendRequest(w_phone.getText().toString(), w_password.getText().toString());
+                    sendRequest(w_phone.getText().toString(), w_password.getText().toString());
                 }
             }
         });
@@ -78,7 +78,11 @@ public class Login extends Activity {
     /* 验证输入框 */
     private boolean validate() {
         if (w_phone.getText().toString().equals("") || w_password.getText().toString().equals("")) {
-            Toast.makeText(Login.this, "手机号和密码均不能为空", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "手机号和密码均不能为空", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (!Global.isPhoneLegal(w_phone.getText().toString())) {
+            Toast.makeText(this, "手机号格式错误", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
