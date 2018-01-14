@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.IOException;
@@ -114,30 +115,28 @@ public class Login extends Activity {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     RequestBody requestBody = new FormBody.Builder()
                             .add("phone", phone)
+                            .add("password", password)
                             .build();
                     Request request = new Request.Builder()
-                            .url(Global.BASE_URL + "/user/findByPhone.do")
+                            .url(Global.BASE_URL + "/user/login.do")
                             .post(requestBody)
                             .build();
                     Response response = okHttpClient.newCall(request).execute();
                     String dataStr = response.body().string();
-                    if (dataStr.equals("null")) {
-                        info = "账号不存在";
+                    JSONObject jsonObject = JSONObject.parseObject(dataStr);
+                    int status = jsonObject.getInteger("status");
+                    if (status == 1) {
+                        User user = jsonObject.getObject("user", User.class);
+                        SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+                        editor.putString("phone", user.getUserPhone());
+                        editor.putString("password", user.getPassword());
+                        editor.apply();
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();  //结束Login activity
+                        return;
                     } else {
-                        User user = JSONObject.parseObject(dataStr, User.class);
-                        if (user.getPassword().equals(password)) {
-                            //Log.i("mms_Login", "success" + user);
-                            SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
-                            editor.putString("phone", user.getUserPhone());
-                            editor.putString("password", user.getPassword());
-                            editor.apply();
-                            Intent intent = new Intent(Login.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();  //结束Login activity
-                            return;
-                        } else {
-                            info = "密码错误";
-                        }
+                        info = jsonObject.getString("msg");
                     }
                     /* 非UI线程错误提示 */
                     Looper.prepare( );
