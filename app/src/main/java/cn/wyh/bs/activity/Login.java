@@ -56,7 +56,8 @@ public class Login extends Activity {
         this.w_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Login.this, "注册", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Login.this, Reg.class);
+                startActivity(intent);
             }
         });
 
@@ -71,7 +72,7 @@ public class Login extends Activity {
         });
 
         /* 自动登录 */
-        this.init();
+        //this.init();
     }
 
     /* 验证输入框 */
