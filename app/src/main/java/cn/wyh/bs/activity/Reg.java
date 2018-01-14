@@ -2,7 +2,6 @@ package cn.wyh.bs.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -117,7 +116,11 @@ public class Reg extends Activity{
                     int status = rt.getInteger("status");
                     String msg = rt.getString("msg");
                     if (status == 1) {
-
+                        Intent intent = new Intent();
+                        intent.putExtra("phone", phone);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        return;
                     }
                      /* 非UI线程错误提示 */
                     Looper.prepare();

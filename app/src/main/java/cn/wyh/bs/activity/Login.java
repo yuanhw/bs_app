@@ -58,7 +58,7 @@ public class Login extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Reg.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -74,6 +74,17 @@ public class Login extends Activity {
 
         /* 自动登录 */
         //this.init();
+    }
+
+    /* 接收reg的数据*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                this.w_phone.setText(data.getStringExtra("phone"));
+                Toast.makeText(Login.this, "注册成功，请登录", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /* 验证输入框 */
