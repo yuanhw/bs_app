@@ -71,7 +71,7 @@ public class Reg extends Activity{
             @Override
             public void onClick(View v) {
                 if (validate()) {
-                    sendRequest(w_phone.getText().toString(), w_password.getText().toString());
+                    Reg.this.sendRequest(w_phone.getText().toString(), w_password.getText().toString());
                 }
             }
         });
@@ -117,13 +117,16 @@ public class Reg extends Activity{
                     String dataStr = response.body().string();
                     JSONObject rt = (JSONObject) JSON.parse(dataStr);
                     int status = rt.getInteger("status");
-                    Log.i("mms_log", "666");
-                    /* 非UI线程错误提示 */
-                    Looper.prepare( );
-                    Toast.makeText(Reg.this, rt.getString("msg"), Toast.LENGTH_LONG).show();
+                    String msg = rt.getString("msg");
+                    if (status == 1) {
+
+                    }
+                     /* 非UI线程错误提示 */
+                    Looper.prepare();
+                    Toast.makeText(Reg.this, msg, Toast.LENGTH_LONG).show();
                     Looper.loop();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.i("reg_exception", e.getMessage());
                 }
             }
         }).start();
