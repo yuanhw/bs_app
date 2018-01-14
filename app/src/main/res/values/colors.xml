@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#259B24</color>
+    <color name="colorPrimaryDark">#056F00</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="account_line">#E0E0E0</color>
+    <color name="split">#F5F5F5</color>
+    <color name="text_show1">#EEEEEE</color>
+    <color name="bottom_color">#FFFFFF</color>
+    <color name="text_primary">#141414</color>
+    <color name="navigationBarColor">#259B24</color>
+</resources>

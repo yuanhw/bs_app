@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selected"
+    android:orientation="vertical">
+<LinearLayout
+    android:id="@+id/item"
+    android:layout_margin="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp">
+        <ImageView
+            android:id="@+id/item_img_farm"
+            android:layout_width="110dp"
+            android:src="@drawable/farm1"
+            android:layout_height="90dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_farm_name"
+            android:text="天空农场"
+            android:textColor="@color/text_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/item_spec"
+            android:textSize="@dimen/text_bottom_size"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:text="规格：20㎡、30㎡、1亩"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="3dp"
+            android:id="@+id/item_consumer_num"
+            android:text="已有地主：20人"
+            android:textSize="@dimen/text_bottom_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:gravity="bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/text_bottom_size"
+                    android:text="种植类型：蔬菜"/>
+            <ImageView
+                android:layout_marginLeft="60dp"
+                android:layout_gravity="bottom"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/position"/>
+            <TextView
+                android:id="@+id/item_distance"
+                android:gravity="bottom"
+                android:text="1000km"
+                android:textSize="@dimen/text_bottom_size"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_height="1dp"
+        android:background="@color/account_line">
+    </LinearLayout>
+</LinearLayout>
