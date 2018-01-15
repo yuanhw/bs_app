@@ -1,4 +1,4 @@
-package cn.wyh.bs.fragment;
+package cn.wyh.bs.activity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -10,29 +10,34 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.bean.Tab;
-import cn.wyh.bs.fragment.*;
+import cn.wyh.bs.activity.fragment.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity{
 
-    private FragmentTabHost mTabHost;
-    private final List<Tab> list = new ArrayList<>(4);
-    private final View[] views = new View[4];
-    private ImageView imageView;
-    private Toolbar toolbar;
+    private FragmentTabHost mTabHost; //底部tab控件
+    private final List<Tab> list = new ArrayList<>(4); //底部tab对象列表
+    private final View[] views = new View[4]; //标题栏视图对象列表
+    private ImageView imageView; //消息tab实心红点图片视图
+    private Toolbar toolbar; //标题栏控件
+    private View drop_down; //下拉视图
+    private TextView city; //当前城市文本框
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /* 获取标题栏控件 */
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
-        initToolbarContext();
-        initTab();
+        initToolbarContext(); //实例化标题栏
+        initTab(); //实例化底部菜单栏
     }
 
     private void initToolbarContext() {
@@ -40,19 +45,26 @@ public class MainActivity extends FragmentActivity{
         this.views[1] = View.inflate(this, R.layout.top_info, null);
         this.views[2] = View.inflate(this, R.layout.top_share, null);
         this.views[3] = View.inflate(this, R.layout.top_person, null);
-        this.toolbar.addView(this.views[0]);
 
-        View place = this.views[0].findViewById(R.id.top_main_place);
-        final TextView city = (TextView) this.views[0].findViewById(R.id.top_main_city);
-        place.setOnClickListener(new View.OnClickListener() {
+        /* 设置toolbar */
+        this.toolbar.removeAllViews();
+        this.toolbar.addView(views[0]);
+
+        /* 获取下拉选择城市视图 */
+        this.drop_down = this.views[0].findViewById(R.id.top_main_place);
+        this.city = (TextView) this.views[0].findViewById(R.id.top_main_city);
+
+        /* 下拉框视图事件 */
+        this.drop_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("place", city.getText().toString());
-                city.setText("嘉兴市");
+                Log.i("mms_MainActivity", "555");
+                Toast.makeText(MainActivity.this, city.getText().toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    /* 初始底部tab视图 */
     private void initTab() {
         Tab tab_home = new Tab("home", "首页", R.drawable.tab_home_selector, TabHomeFragment.class);
         Tab tab_info = new Tab("info", "消息", R.drawable.tab_info_selector, TabMessageFragment.class);
@@ -64,24 +76,30 @@ public class MainActivity extends FragmentActivity{
         list.add(tab_share);
         list.add(tab_person);
 
+        /* 获取tabHost控件 */
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+
+        /* 设置tab页内容展示控件 */
         mTabHost.setup(this, getSupportFragmentManager(), R.id.real_tab_content);
 
+        /* 填充mTabHost*/
         for (Tab tab : list) {
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tab.getTag());
             tabSpec.setIndicator(buildView(tab));
             mTabHost.addTab(tabSpec, tab.getMainFragment(), null);
         }
 
+        /* 当前所展示tab */
         mTabHost.setCurrentTabByTag(tab_home.getTag());
 
+        /* tab切换事件 */
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                Log.i("mms_MainActivity_tab", tabId);
                 switch (tabId) {
                     case "home":
-                        toolbar.removeAllViews();;
+                        Log.i("mms_tab", "666");
+                        toolbar.removeAllViews();
                         toolbar.addView(views[0]);
                         break;
                     case "info":
