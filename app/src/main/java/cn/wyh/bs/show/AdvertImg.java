@@ -14,12 +14,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import cn.wyh.bs.R;
 
@@ -110,7 +110,7 @@ public class AdvertImg {
                         isContinue = true;
                         if (touchFlag == 1) {
                             //广告栏点击事件
-                            Log.i("mms_AdvertImg_click = ", mImagePager.getCurrentItem() + " ");
+                            Toast.makeText(mContext, "广告栏编号：" + mImagePager.getCurrentItem(), Toast.LENGTH_LONG).show();
                         }
                         break;
                     default:

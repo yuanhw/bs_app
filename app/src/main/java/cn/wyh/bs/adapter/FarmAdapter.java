@@ -21,6 +21,7 @@ public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.ViewHolder> {
     public FarmAdapter(List<Farm> farms) {
         this.farms = farms;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item, parent, false);
@@ -36,7 +37,6 @@ public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //Log.i("mms_FarmAdapter_onBindViewHolder", position + "");
         Farm farm = farms.get(position);
         holder.farmImg.setImageResource(farm.getImgId());
         holder.tv1.setText(farm.getName());
