@@ -1,5 +1,6 @@
 package cn.wyh.bs.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,11 @@ import cn.wyh.bs.bean.Item;
  */
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
+    private Context context;
     private List<Item> items = new ArrayList<>(5);
 
-    public ItemsAdapter() {
+    public ItemsAdapter(Context context) {
+        this.context = context;
         this.init();
     }
 
@@ -44,7 +48,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 TextView id = (TextView) v.findViewById(R.id.person_item_id);
-                Log.i("mms_click", id.getText().toString());
+                switch (id.getText().toString()) {
+                    case "1" :
+                        Toast.makeText(context, "地址管理", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "2" :
+                        Toast.makeText(context, "操作说明", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "3" :
+                        Toast.makeText(context, "意见反馈", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "4" :
+                        Toast.makeText(context, "关于我们", Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         });
         return holder;
