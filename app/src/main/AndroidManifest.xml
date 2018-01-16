@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.Reg"></activity>
+        <activity android:name=".activity.person.PersonDetail"></activity>
     </application>
 
 </manifest>

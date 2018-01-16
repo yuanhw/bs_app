@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.ActivityManager;
 import cn.wyh.bs.activity.Login;
+import cn.wyh.bs.activity.person.PersonDetail;
 import cn.wyh.bs.adapter.ItemsAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -50,7 +50,8 @@ public class TabPersonFragment extends Fragment {
         this.tou_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "头像信息", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getContext(), PersonDetail.class);
+                startActivity(intent);
             }
         });
     }
