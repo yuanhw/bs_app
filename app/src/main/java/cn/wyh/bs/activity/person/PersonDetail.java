@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -32,8 +33,9 @@ import cn.wyh.bs.custom.CircleImageView;
 
 public class PersonDetail extends BaseActivity {
 
-    private static int CAMERA_REQUEST_CODE = 0;
-    private static int GALLERY_REQUEST_CODE = 1;
+    private static final int CAMERA_REQUEST_CODE = 0;
+    private static final int GALLERY_REQUEST_CODE = 1;
+    private static final int CROP_REQUEST_CODE = 2;
 
     private ImageView w_back;
     private View w_item1, w_item2;
@@ -100,36 +102,60 @@ public class PersonDetail extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            if (data == null) {
-                return;
-            }
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap bm = extras.getParcelable("data");
-                this.w_tou_img.setImageBitmap(bm);
-            }
-        } else if (requestCode == GALLERY_REQUEST_CODE) {
-            if (data == null) {
-                return;
-            }
-            Uri uri = this.convertUri(data.getData());
-            this.w_tou_img.setImageURI(uri);
+        switch (requestCode) {
+            case CAMERA_REQUEST_CODE :
+                if (data == null) {
+                    return;
+                }
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    Bitmap bm = extras.getParcelable("data");
+                    startImageZoom(this.saveBitmap(bm));
+                }
+                break;
+            case GALLERY_REQUEST_CODE :
+                if (data == null) {
+                    return;
+                }
+                Uri uri = this.convertUri(data.getData());
+                startImageZoom(this.convertUri(uri));
+                break;
+            case CROP_REQUEST_CODE :
+                if (data == null) {
+                    return;
+                }
+                Bundle extras2 = data.getExtras();
+                if (extras2 != null) {
+                    Bitmap bm = extras2.getParcelable("data");
+                    this.w_tou_img.setImageBitmap(bm);
+                }
+                break;
         }
     }
 
+    private void startImageZoom(Uri uri) {
+        Uri photoUri = FileProvider.getUriForFile(this, "cn.wyh.bs.fileprovider", new File(uri.getPath()));
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(photoUri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, CROP_REQUEST_CODE);
+    }
     private Uri saveBitmap(Bitmap bitmap) {
         File tmpDir = new File(Environment.getExternalStorageDirectory() + "/cn.wyh.bs");
         Log.i("mms_rui0", tmpDir.exists() + "");
         if (!tmpDir.exists()) {
             tmpDir.mkdir();
         }
-        Log.i("mms_rui1", tmpDir.exists() + "");
         File img = new File(tmpDir.getAbsolutePath() + "/tou.png");
-        Log.i("mms_1", img.getAbsolutePath());
         try {
             FileOutputStream output = new FileOutputStream(img);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 85, output);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 80, output);
             output.flush();
             output.close();
             return Uri.fromFile(img);
