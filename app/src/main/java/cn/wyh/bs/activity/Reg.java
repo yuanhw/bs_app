@@ -1,6 +1,5 @@
 package cn.wyh.bs.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
@@ -23,7 +22,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Reg extends Activity{
+public class Reg extends BaseActivity{
 
     private ImageView w_back;
     private EditText w_phone;

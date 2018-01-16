@@ -32,12 +32,19 @@ public class MainActivity extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityManager.addActivity(this);
         setContentView(R.layout.activity_main);
 
         /* 获取标题栏控件 */
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
         initToolbarContext(); //实例化标题栏
         initTab(); //实例化底部菜单栏
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityManager.removeActivity(this);
     }
 
     private void initToolbarContext() {

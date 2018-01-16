@@ -4,30 +4,39 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_selected"
     android:orientation="vertical">
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/code"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:orientation="horizontal">
             <ImageView
                 android:id="@+id/person_item_img"
-                android:layout_width="50dp"
-                android:src="@mipmap/dot"
-                android:layout_height="50dp"/>
+                android:layout_width="40dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/person_pos"
+                android:layout_height="40dp"/>
             <TextView
                 android:id="@+id/person_item_title"
-                android:text="天空农场"
+                android:text="Test"
+                android:textSize="16sp"
                 android:textColor="@color/text_primary"
-                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/person_item_img"
+                android:layout_centerVertical="true"
                 android:gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content" />
             <ImageView
-                android:layout_gravity="center"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@mipmap/position"/>
-    </LinearLayout>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@mipmap/forward"/>
+        <TextView
+            android:id="@+id/person_item_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"

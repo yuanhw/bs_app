@@ -5,12 +5,22 @@ package cn.wyh.bs.bean;
  */
 
 public class Item {
+    private int id;
     private int imgId;
     private String title;
 
-    public Item(int imgId, String title) {
+    public Item(int id, int imgId, String title) {
+        this.id = id;
         this.imgId = imgId;
         this.title = title;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getImgId() {
