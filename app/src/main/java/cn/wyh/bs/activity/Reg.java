@@ -3,7 +3,6 @@ package cn.wyh.bs.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +15,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.common.Global;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class Reg extends BaseActivity{
 
@@ -99,21 +93,16 @@ public class Reg extends BaseActivity{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    OkHttpClient okHttpClient = new OkHttpClient();
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("userPhone", phone)
-                            .add("password", password)
-                            .build();
-                    Request request = new Request.Builder()
-                            .url(Global.BASE_URL + "/user/reg.do")
-                            .post(requestBody)
-                            .build();
-                    Response response = okHttpClient.newCall(request).execute();
-                    String dataStr = response.body().string();
-                    JSONObject rt = (JSONObject) JSON.parse(dataStr);
+                JSONObject request = new JSONObject();
+                request.put("userPhone", phone);
+                request.put("password", password);
+                JSONObject response = Global.httpPost("/user/reg.do", request.toJSONString());
+
+                String msg;
+                if (response.getInteger("code") == 1) {
+                    JSONObject rt = (JSONObject) JSON.parse(response.getString("respStr"));
                     int status = rt.getInteger("status");
-                    String msg = rt.getString("msg");
+                    msg = rt.getString("msg");
                     if (status == 1) {
                         Intent intent = new Intent();
                         intent.putExtra("phone", phone);
@@ -121,13 +110,13 @@ public class Reg extends BaseActivity{
                         finish();
                         return;
                     }
-                     /* 非UI线程错误提示 */
-                    Looper.prepare();
-                    Toast.makeText(Reg.this, msg, Toast.LENGTH_LONG).show();
-                    Looper.loop();
-                } catch (Exception e) {
-                    Log.i("reg_exception", e.getMessage());
+                } else {
+                    msg = response.getString("msg");
                 }
+                 /* 非UI线程错误提示 */
+                Looper.prepare();
+                Toast.makeText(Reg.this, msg, Toast.LENGTH_LONG).show();
+                Looper.loop();
             }
         }).start();
     }

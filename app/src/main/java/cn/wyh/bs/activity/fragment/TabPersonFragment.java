@@ -1,6 +1,7 @@
 package cn.wyh.bs.activity.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import cn.wyh.bs.R;
 import cn.wyh.bs.activity.ActivityManager;
 import cn.wyh.bs.activity.Login;
 import cn.wyh.bs.adapter.ItemsAdapter;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class TabPersonFragment extends Fragment {
 
@@ -54,6 +57,10 @@ public class TabPersonFragment extends Fragment {
 
     /* 退出登录事件 */
     private void personReturn() {
+        SharedPreferences.Editor editor = this.getContext().getSharedPreferences("user", MODE_PRIVATE).edit();
+        editor.putString("phone", "");
+        editor.putString("password", "");
+        editor.apply();
         ActivityManager.finashAll();
         Intent intent = new Intent(this.getContext(), Login.class);
         startActivity(intent);

@@ -64,18 +64,18 @@ public class Login extends BaseActivity {
         this.w_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
+
                 if (validate()) {
                     sendRequest(w_phone.getText().toString(), w_password.getText().toString());
                 }
-                */
+
                 //测试环境，不验证，不请求
-                sendRequest0(w_phone.getText().toString(), w_password.getText().toString());
+                //sendRequest0(w_phone.getText().toString(), w_password.getText().toString());
             }
         });
 
         /* 自动登录 */
-        //this.init();
+        this.init();
     }
 
     /* 接收reg的数据*/
@@ -123,41 +123,34 @@ public class Login extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    String info;
-                    OkHttpClient okHttpClient = new OkHttpClient();
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("phone", phone)
-                            .add("password", password)
-                            .build();
-                    Request request = new Request.Builder()
-                            .url(Global.BASE_URL + "/user/login.do")
-                            .post(requestBody)
-                            .build();
-                    Response response = okHttpClient.newCall(request).execute();
-                    String dataStr = response.body().string();
-                    JSONObject jsonObject = JSONObject.parseObject(dataStr);
-                    int status = jsonObject.getInteger("status");
-                    if (status == 1) {
-                        User user = jsonObject.getObject("user", User.class);
-                        SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
-                        editor.putString("phone", user.getUserPhone());
-                        editor.putString("password", user.getPassword());
-                        editor.apply();
-                        Intent intent = new Intent(Login.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();  //结束Login activity
-                        return;
-                    } else {
-                        info = jsonObject.getString("msg");
-                    }
-                    /* 非UI线程错误提示 */
-                    Looper.prepare( );
-                    Toast.makeText(Login.this, info, Toast.LENGTH_LONG).show();
-                    Looper.loop();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            String info;
+            JSONObject request = new JSONObject();
+            request.put("phone", phone);
+            request.put("password", password);
+            JSONObject response = Global.httpPost("/user/login.do", request.toJSONString());
+            if (response.getInteger("code") == 1) {
+                JSONObject context = JSONObject.parseObject(response.getString("respStr"));
+                int status = context.getInteger("status");
+                if (status == 1) {
+                    User user = context.getObject("user", User.class);
+                    SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+                    editor.putString("phone", user.getUserPhone());
+                    editor.putString("password", user.getPassword());
+                    editor.apply();
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();  //结束Login activity
+                    return;
+                } else {
+                    info = context.getString("msg");
                 }
+            } else {
+                info = response.getString("msg");
+            }
+             /* 非UI线程错误提示 */
+            Looper.prepare( );
+            Toast.makeText(Login.this, info, Toast.LENGTH_LONG).show();
+            Looper.loop();
             }
         }).start();
     }
