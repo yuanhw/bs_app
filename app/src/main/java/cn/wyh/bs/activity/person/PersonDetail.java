@@ -6,10 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -17,14 +16,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.BaseActivity;
+import cn.wyh.bs.activity.Reg;
+import cn.wyh.bs.common.Global;
+import cn.wyh.bs.common.ImgProcess;
+import cn.wyh.bs.common.PermissionUtils;
 import cn.wyh.bs.custom.CircleImageView;
 
 /**
@@ -36,6 +37,9 @@ public class PersonDetail extends BaseActivity {
     private static final int CAMERA_REQUEST_CODE = 0;
     private static final int GALLERY_REQUEST_CODE = 1;
     private static final int CROP_REQUEST_CODE = 2;
+
+    private static String tmpImgName = "tou_tmp.jpg"; //临时头像文件名称
+    private static String realImgName = "tou.jpg"; //真实头像文件名称
 
     private ImageView w_back;
     private View w_item1, w_item2;
@@ -75,6 +79,7 @@ public class PersonDetail extends BaseActivity {
         });
     }
 
+    /* 弹框 */
     private void initAlertDialog() {
         builder = new AlertDialog.Builder(this);
         builder.setTitle("请选择");
@@ -83,9 +88,13 @@ public class PersonDetail extends BaseActivity {
         builder.setItems(new String[] {"拍照", "相册"}, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                //询问用户获取权限
+                PermissionUtils.verifyStoragePermissions(PersonDetail.this);
+
                 switch (i) {
                     case 0 :
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, ImgProcess.getUriByFileProvider(PersonDetail.this, tmpImgName, true));
                         startActivityForResult(intent, CAMERA_REQUEST_CODE);
                         break;
                     case 1 :
@@ -104,21 +113,16 @@ public class PersonDetail extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case CAMERA_REQUEST_CODE :
-                if (data == null) {
+                if (resultCode == 0) {
                     return;
                 }
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    Bitmap bm = extras.getParcelable("data");
-                    startImageZoom(this.saveBitmap(bm));
-                }
+                startImageZoom( ImgProcess.getUriByFileProvider(this, tmpImgName, true));
                 break;
             case GALLERY_REQUEST_CODE :
                 if (data == null) {
                     return;
                 }
-                Uri uri = this.convertUri(data.getData());
-                startImageZoom(this.convertUri(uri));
+                startImageZoom( ImgProcess.getUriByFileProvider(this, tmpImgName, true));
                 break;
             case CROP_REQUEST_CODE :
                 if (data == null) {
@@ -127,54 +131,53 @@ public class PersonDetail extends BaseActivity {
                 Bundle extras2 = data.getExtras();
                 if (extras2 != null) {
                     Bitmap bm = extras2.getParcelable("data");
+                    Uri uri = ImgProcess.saveBitmap(bm, realImgName);
+                    Log.i("PersonDetail_uri", uri.toString());
+                    uploadImg(uri);
                     this.w_tou_img.setImageBitmap(bm);
                 }
                 break;
         }
     }
 
+    private void uploadImg(final Uri uri) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject response = Global.uploadImg("/user/uploadImg.do", new File(uri.getPath()), realImgName);
+                Log.i("mms__", response.toJSONString());
+                int code = response.getInteger("code");
+                String msg = response.getString("msg");
+                if (code != 1) {
+                     ImgProcess.delImgFile(realImgName);
+                } else {
+                    String respStr = response.getString("respStr");
+                    JSONObject resp = JSONObject.parseObject(respStr);
+                    msg = resp.getString("msg");
+                    if (resp.getInteger("status") != 1) {
+                        ImgProcess.delImgFile(realImgName);
+                    }
+                }
+                  /* 非UI线程错误提示 */
+                Looper.prepare();
+                Toast.makeText(PersonDetail.this, msg, Toast.LENGTH_LONG).show();
+                Looper.loop();
+            }
+        }).start();
+    }
+
+    /* 调用系统裁剪功能 */
     private void startImageZoom(Uri uri) {
-        Uri photoUri = FileProvider.getUriForFile(this, "cn.wyh.bs.fileprovider", new File(uri.getPath()));
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(photoUri, "image/*");
+        intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
+        intent.putExtra("aspectX", 99998);
+        intent.putExtra("aspectY", 99999);
+        intent.putExtra("outputX", 125);
+        intent.putExtra("outputY", 125);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, CROP_REQUEST_CODE);
     }
-    private Uri saveBitmap(Bitmap bitmap) {
-        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/cn.wyh.bs");
-        Log.i("mms_rui0", tmpDir.exists() + "");
-        if (!tmpDir.exists()) {
-            tmpDir.mkdir();
-        }
-        File img = new File(tmpDir.getAbsolutePath() + "/tou.png");
-        try {
-            FileOutputStream output = new FileOutputStream(img);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 80, output);
-            output.flush();
-            output.close();
-            return Uri.fromFile(img);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
-    private Uri convertUri(Uri uri) {
-        InputStream in;
-        try {
-            in = getContentResolver().openInputStream(uri);
-            Bitmap bitmap = BitmapFactory.decodeStream(in);
-            in.close();
-            return this.saveBitmap(bitmap);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

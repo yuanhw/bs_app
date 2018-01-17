@@ -57,16 +57,18 @@ public class Login extends BaseActivity {
         this.w_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 if (validate()) {
                     sendRequest(w_phone.getText().toString(), w_password.getText().toString());
                 }
+                */
                 //测试环境，不验证，不请求
-                //sendRequest0(w_phone.getText().toString(), w_password.getText().toString());
+                sendRequest0(w_phone.getText().toString(), w_password.getText().toString());
             }
         });
 
         /* 自动登录 */
-        this.init();
+        //this.init();
     }
 
     /* 接收reg的数据*/
