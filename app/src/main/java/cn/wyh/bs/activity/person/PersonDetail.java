@@ -3,7 +3,6 @@ package cn.wyh.bs.activity.person;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
@@ -22,7 +21,6 @@ import java.io.File;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.BaseActivity;
-import cn.wyh.bs.activity.Reg;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.ImgProcess;
 import cn.wyh.bs.common.PermissionUtils;
@@ -83,14 +81,12 @@ public class PersonDetail extends BaseActivity {
     private void initAlertDialog() {
         builder = new AlertDialog.Builder(this);
         builder.setTitle("请选择");
-        //设置图标
         builder.setIcon(R.mipmap.upload_icon);
         builder.setItems(new String[] {"拍照", "相册"}, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //询问用户获取权限
                 PermissionUtils.verifyStoragePermissions(PersonDetail.this);
-
                 switch (i) {
                     case 0 :
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -132,7 +128,7 @@ public class PersonDetail extends BaseActivity {
                 if (extras2 != null) {
                     Bitmap bm = extras2.getParcelable("data");
                     Uri uri = ImgProcess.saveBitmap(bm, realImgName);
-                    Log.i("PersonDetail_uri", uri.toString());
+                    //Log.i("PersonDetail_uri", uri.toString());
                     uploadImg(uri);
                     this.w_tou_img.setImageBitmap(bm);
                 }
@@ -140,12 +136,14 @@ public class PersonDetail extends BaseActivity {
         }
     }
 
+    /* 上传图片 */
     private void uploadImg(final Uri uri) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                JSONObject response = Global.uploadImg("/user/uploadImg.do", new File(uri.getPath()), realImgName);
-                Log.i("mms__", response.toJSONString());
+                JSONObject response = Global.uploadImg("/user/uploadImg.do", new File(uri.getPath()),
+                        w_phone.getText().toString());
+                //Log.i("mms__", response.toJSONString());
                 int code = response.getInteger("code");
                 String msg = response.getString("msg");
                 if (code != 1) {
