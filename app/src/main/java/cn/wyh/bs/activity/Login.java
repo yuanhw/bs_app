@@ -3,6 +3,8 @@ package cn.wyh.bs.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -14,8 +16,12 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.InputStream;
+
 import cn.wyh.bs.R;
 import cn.wyh.bs.common.Global;
+import cn.wyh.bs.common.ImgProcess;
+import cn.wyh.bs.common.PermissionUtils;
 import cn.wyh.bs.entity.User;
 import cn.wyh.bs.storage.DBHelper;
 import cn.wyh.bs.storage.KeyValueTable;
@@ -78,6 +84,7 @@ public class Login extends BaseActivity {
     private void appInit() {
         // 创建storage.db数据库
         DBHelper.instance(Login.this, 1);
+        PermissionUtils.verifyStoragePermissions(Login.this);
     }
 
     /* 接收reg的数据*/
@@ -141,6 +148,7 @@ public class Login extends BaseActivity {
                     editor.apply();
                     */
                     KeyValueTable.addObject("user", user);
+                    loadImg(user.getTouImgPath());
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
                     finish();  //结束Login activity
@@ -155,6 +163,24 @@ public class Login extends BaseActivity {
             Looper.prepare( );
             Toast.makeText(Login.this, info, Toast.LENGTH_LONG).show();
             Looper.loop();
+            }
+        }).start();
+    }
+
+    private void loadImg(final String uri) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InputStream in = null;
+                try {
+                    in = Global.upDownFile(uri);
+                    Bitmap bm = BitmapFactory.decodeStream(in);
+                    String[] path = uri.split("/");
+                    ImgProcess.saveBitmap(bm, path[path.length - 1]);
+                    in.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
     }

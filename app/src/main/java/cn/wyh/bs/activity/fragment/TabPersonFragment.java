@@ -2,11 +2,15 @@ package cn.wyh.bs.activity.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,8 @@ import cn.wyh.bs.activity.ActivityManager;
 import cn.wyh.bs.activity.Login;
 import cn.wyh.bs.activity.person.PersonDetail;
 import cn.wyh.bs.adapter.ItemsAdapter;
+import cn.wyh.bs.common.ImgProcess;
+import cn.wyh.bs.common.Status;
 import cn.wyh.bs.entity.User;
 import cn.wyh.bs.storage.KeyValueTable;
 
@@ -29,6 +35,7 @@ public class TabPersonFragment extends Fragment {
     private TextView name; //姓名控件
     private TextView acount, reCharge; //余额控件，充值控件
 
+    private Uri uri;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,10 +48,25 @@ public class TabPersonFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Log.i("mms____", "onStart");
+        if (Status.isImgUpdate) {
+            Bitmap bm = BitmapFactory.decodeFile(uri.getPath());
+            this.tou_img.setImageBitmap(bm);
+            Status.isImgUpdate = false;
+        }
+    }
+
     private void initData() {
         User user = KeyValueTable.getObject("user", User.class);
         this.name.setText(user.getUserName());
         this.acount.setText(user.getAccount() + "");
+        String[] imgName = user.getTouImgPath().split("/");
+         uri= ImgProcess.getImgPath(imgName[imgName.length - 1]);
+        //Log.i("mms_initData", uri.toString());
+        this.tou_img.setImageURI(uri);
     }
 
     private void initOne(View view) {

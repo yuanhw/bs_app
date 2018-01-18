@@ -5,6 +5,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,4 +94,19 @@ public class Global {
             return jsonObject;
         }
     }
+
+    /* 上传单张图片 */
+    public static InputStream upDownFile(String url) throws Exception {
+        try {
+            OkHttpClient okHttpClient = builder.build();
+            Request request = new Request.Builder()
+                    .url(BASE_URL + url)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            return response.body().byteStream();
+        } catch (Exception e) {
+           throw new Exception("");
+        }
+    }
+
 }

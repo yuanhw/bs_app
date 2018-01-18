@@ -25,6 +25,7 @@ import cn.wyh.bs.activity.BaseActivity;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.ImgProcess;
 import cn.wyh.bs.common.PermissionUtils;
+import cn.wyh.bs.common.Status;
 import cn.wyh.bs.custom.CircleImageView;
 import cn.wyh.bs.entity.User;
 import cn.wyh.bs.storage.DBHelper;
@@ -49,6 +50,8 @@ public class PersonDetail extends BaseActivity {
     private TextView w_name, w_password, w_pay_password, w_gender, w_phone;
 
     private AlertDialog.Builder builder;
+
+    private User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,12 +130,16 @@ public class PersonDetail extends BaseActivity {
     }
 
     private void initData() {
-        User user = KeyValueTable.getObject("user", User.class);
+        this.user = KeyValueTable.getObject("user", User.class);
         this.w_name.setText(user.getUserName());
         this.w_password.setText(user.getPassword());
         this.w_pay_password.setText(user.getPayPassword());
         this.w_gender.setText(user.getGender());
         this.w_phone.setText(user.getUserPhone());
+
+        String[] imgName = user.getTouImgPath().split("/");
+        Uri uri = ImgProcess.getImgPath(imgName[imgName.length - 1]);
+        this.w_tou_img.setImageURI(uri);
     }
 
     /* 弹框 */
@@ -148,7 +155,7 @@ public class PersonDetail extends BaseActivity {
                 switch (i) {
                     case 0 :
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, ImgProcess.getUriByFileProvider(PersonDetail.this, tmpImgName, true));
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, ImgProcess.getUriByFileProvider(PersonDetail.this, user.getUserPhone()+'-' + tmpImgName, true));
                         startActivityForResult(intent, CAMERA_REQUEST_CODE);
                         break;
                     case 1 :
@@ -170,14 +177,14 @@ public class PersonDetail extends BaseActivity {
                 if (resultCode == 0) {
                     return;
                 }
-                startImageZoom( ImgProcess.getUriByFileProvider(this, tmpImgName, true));
+                startImageZoom( ImgProcess.getUriByFileProvider(this, this.user.getUserPhone()+'-' + tmpImgName, true));
                 break;
             case GALLERY_REQUEST_CODE :
                 if (data == null) {
                     return;
                 }
-                ImgProcess.convertUri(PersonDetail.this, data.getData(), tmpImgName); //保存文件到本地
-                startImageZoom( ImgProcess.getUriByFileProvider(this, tmpImgName, true));
+                ImgProcess.convertUri(PersonDetail.this, data.getData(), this.user.getUserPhone()+'-' + tmpImgName); //保存文件到本地
+                startImageZoom( ImgProcess.getUriByFileProvider(this, this.user.getUserPhone()+'-' + tmpImgName, true));
                 break;
             case CROP_REQUEST_CODE :
                 if (data == null) {
@@ -186,7 +193,7 @@ public class PersonDetail extends BaseActivity {
                 Bundle extras2 = data.getExtras();
                 if (extras2 != null) {
                     Bitmap bm = extras2.getParcelable("data");
-                    Uri uri = ImgProcess.saveBitmap(bm, realImgName);
+                    Uri uri = ImgProcess.saveBitmap(bm, this.user.getUserPhone()+'-' + realImgName);
                     //Log.i("PersonDetail_uri", uri.toString());
                     uploadImg(uri);
                     this.w_tou_img.setImageBitmap(bm);
@@ -213,6 +220,8 @@ public class PersonDetail extends BaseActivity {
                     msg = resp.getString("msg");
                     if (resp.getInteger("status") != 1) {
                         ImgProcess.delImgFile(realImgName);
+                    } else {
+                        Status.isImgUpdate = true;
                     }
                 }
                   /* 非UI线程错误提示 */

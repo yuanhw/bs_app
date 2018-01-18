@@ -13,9 +13,19 @@ import java.io.InputStream;
 
 /**
  * Created by WYH on 2018/1/17.
+ * 用户头像处理
  */
 
 public class ImgProcess {
+
+    public static Uri getImgPath(String fileName) {
+        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/cn.wyh.bs/img");
+        if (!tmpDir.exists()) {
+            tmpDir.mkdir();
+        }
+        File img = new File(tmpDir.getAbsolutePath() + File.separator + fileName);
+        return Uri.fromFile(img);
+    }
 
     /* 保存位图到本地并返回file开头的uri */
     public static Uri saveBitmap(Bitmap bitmap, String fileName) {
@@ -72,4 +82,9 @@ public class ImgProcess {
             file.delete();
         }
     }
+
+    public static void loadAndSave() {
+
+    }
+
 }
