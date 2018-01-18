@@ -12,46 +12,59 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.ActivityManager;
 import cn.wyh.bs.activity.Login;
 import cn.wyh.bs.activity.person.PersonDetail;
 import cn.wyh.bs.adapter.ItemsAdapter;
-
-import static android.content.Context.MODE_PRIVATE;
+import cn.wyh.bs.entity.User;
+import cn.wyh.bs.storage.KeyValueTable;
 
 public class TabPersonFragment extends Fragment {
 
     private TextView rt; //退出登录控件
     private ImageView tou_img; //头像控件
     private TextView name; //姓名控件
+    private TextView acount, reCharge; //余额控件，充值控件
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_person_fragment, container, false);
 
-        initOne(view); //设置上面头像
+        initOne(view); //设置上面视图
         initTwo(view); //设置下面列表
+
+        initData();
         return view;
+    }
+
+    private void initData() {
+        User user = KeyValueTable.getObject("user", User.class);
+        this.name.setText(user.getUserName());
+        this.acount.setText(user.getAccount() + "");
     }
 
     private void initOne(View view) {
         this.tou_img = (ImageView) view.findViewById(R.id.person_tou_img);
         this.name = (TextView) view.findViewById(R.id.person_name);
-
-        SharedPreferences editor = this.getContext().getSharedPreferences("user", MODE_PRIVATE);
-        String phone = editor.getString("phone", "");
-        if (!phone.equals("")) {
-            this.name.setText(phone);
-        }
+        this.acount = (TextView) view.findViewById(R.id.person_account);
+        this.reCharge = (TextView) view.findViewById(R.id.person_recharge);
 
         this.tou_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), PersonDetail.class);
                 startActivity(intent);
+            }
+        });
+
+        this.reCharge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TabPersonFragment.this.getContext(), "充值", Toast.LENGTH_LONG);
             }
         });
     }
@@ -77,10 +90,7 @@ public class TabPersonFragment extends Fragment {
 
     /* 退出登录事件 */
     private void personReturn() {
-        SharedPreferences.Editor editor = this.getContext().getSharedPreferences("user", MODE_PRIVATE).edit();
-        editor.putString("phone", "");
-        editor.putString("password", "");
-        editor.apply();
+        KeyValueTable.removeObject("user");
         ActivityManager.finashAll();
         Intent intent = new Intent(this.getContext(), Login.class);
         startActivity(intent);

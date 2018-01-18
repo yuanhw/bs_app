@@ -2,6 +2,7 @@ package cn.wyh.bs.activity.person;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,9 @@ import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.ImgProcess;
 import cn.wyh.bs.common.PermissionUtils;
 import cn.wyh.bs.custom.CircleImageView;
+import cn.wyh.bs.entity.User;
+import cn.wyh.bs.storage.DBHelper;
+import cn.wyh.bs.storage.KeyValueTable;
 
 /**
  * Created by WYH on 2018/1/16.
@@ -40,9 +44,9 @@ public class PersonDetail extends BaseActivity {
     private static String realImgName = "tou.jpg"; //真实头像文件名称
 
     private ImageView w_back;
-    private View w_item1, w_item2;
+    private View w_item1, w_item2, w_item3, w_item4, w_item5, w_item6;
     private CircleImageView w_tou_img;
-    private TextView w_name, w_phone;
+    private TextView w_name, w_password, w_pay_password, w_gender, w_phone;
 
     private AlertDialog.Builder builder;
 
@@ -55,8 +59,15 @@ public class PersonDetail extends BaseActivity {
         this.w_back = (ImageView) findViewById(R.id.detail_back);
         this.w_item1 = findViewById(R.id.detail_item1);
         this.w_item2 = findViewById(R.id.detail_item2);
+        this.w_item3 = findViewById(R.id.detail_item3);
+        this.w_item4 = findViewById(R.id.detail_item4);
+        this.w_item5 = findViewById(R.id.detail_item5);
+        this.w_item6 = findViewById(R.id.detail_item6);
         this.w_tou_img = (CircleImageView) findViewById(R.id.detail_tou_img);
         this.w_name = (TextView) findViewById(R.id.detail_name);
+        this.w_password = (TextView) findViewById(R.id.detail_password);
+        this.w_pay_password = (TextView) findViewById(R.id.detail_pay_password);
+        this.w_gender = (TextView) findViewById(R.id.detail_gender);
         this.w_phone = (TextView) findViewById(R.id.detail_phone);
 
         initAlertDialog();
@@ -75,6 +86,53 @@ public class PersonDetail extends BaseActivity {
                 builder.show();
             }
         });
+
+        this.w_item2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PersonDetail.this, "修改昵称" + w_name.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        this.w_item3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PersonDetail.this, "修改登录密码" + w_password.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        this.w_item4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PersonDetail.this, "修改支付密码" + w_pay_password.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        this.w_item5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PersonDetail.this, "修改性别" + w_gender.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        this.w_item6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PersonDetail.this, "修改电话号码" + w_phone.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        initData(); //组件赋值
+        //Log.i("mms_sss", KeyValueTable.getObject("user", User.class).toString());
+    }
+
+    private void initData() {
+        User user = KeyValueTable.getObject("user", User.class);
+        this.w_name.setText(user.getUserName());
+        this.w_password.setText(user.getPassword());
+        this.w_pay_password.setText(user.getPayPassword());
+        this.w_gender.setText(user.getGender());
+        this.w_phone.setText(user.getUserPhone());
     }
 
     /* 弹框 */
@@ -118,6 +176,7 @@ public class PersonDetail extends BaseActivity {
                 if (data == null) {
                     return;
                 }
+                ImgProcess.convertUri(PersonDetail.this, data.getData(), tmpImgName); //保存文件到本地
                 startImageZoom( ImgProcess.getUriByFileProvider(this, tmpImgName, true));
                 break;
             case CROP_REQUEST_CODE :
