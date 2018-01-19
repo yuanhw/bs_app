@@ -155,7 +155,7 @@ public class PersonDetail extends BaseActivity {
                 switch (i) {
                     case 0 :
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, ImgProcess.getUriByFileProvider(PersonDetail.this, user.getUserPhone()+'-' + tmpImgName, true));
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, ImgProcess.getUriByFileProvider(PersonDetail.this, user.getUserPhone()+ "_0" + tmpImgName, true));
                         startActivityForResult(intent, CAMERA_REQUEST_CODE);
                         break;
                     case 1 :
@@ -177,14 +177,14 @@ public class PersonDetail extends BaseActivity {
                 if (resultCode == 0) {
                     return;
                 }
-                startImageZoom( ImgProcess.getUriByFileProvider(this, this.user.getUserPhone()+'-' + tmpImgName, true));
+                startImageZoom( ImgProcess.getUriByFileProvider(this, this.user.getUserPhone()+ "_0" + tmpImgName, true));
                 break;
             case GALLERY_REQUEST_CODE :
                 if (data == null) {
                     return;
                 }
-                ImgProcess.convertUri(PersonDetail.this, data.getData(), this.user.getUserPhone()+'-' + tmpImgName); //保存文件到本地
-                startImageZoom( ImgProcess.getUriByFileProvider(this, this.user.getUserPhone()+'-' + tmpImgName, true));
+                ImgProcess.convertUri(PersonDetail.this, data.getData(), this.user.getUserPhone()+"_1" + tmpImgName); //保存文件到本地
+                startImageZoom( ImgProcess.getUriByFileProvider(this, this.user.getUserPhone()+"_1" + tmpImgName, true));
                 break;
             case CROP_REQUEST_CODE :
                 if (data == null) {
@@ -193,7 +193,7 @@ public class PersonDetail extends BaseActivity {
                 Bundle extras2 = data.getExtras();
                 if (extras2 != null) {
                     Bitmap bm = extras2.getParcelable("data");
-                    Uri uri = ImgProcess.saveBitmap(bm, this.user.getUserPhone()+'-' + realImgName);
+                    Uri uri = ImgProcess.saveBitmap(bm, this.user.getUserPhone()+'_' + realImgName);
                     //Log.i("PersonDetail_uri", uri.toString());
                     uploadImg(uri);
                     this.w_tou_img.setImageBitmap(bm);

@@ -21,7 +21,7 @@ public class ImgProcess {
     public static Uri getImgPath(String fileName) {
         File tmpDir = new File(Environment.getExternalStorageDirectory() + "/cn.wyh.bs/img");
         if (!tmpDir.exists()) {
-            tmpDir.mkdir();
+            tmpDir.mkdirs();
         }
         File img = new File(tmpDir.getAbsolutePath() + File.separator + fileName);
         return Uri.fromFile(img);
@@ -31,7 +31,7 @@ public class ImgProcess {
     public static Uri saveBitmap(Bitmap bitmap, String fileName) {
         File tmpDir = new File(Environment.getExternalStorageDirectory() + "/cn.wyh.bs/img");
         if (!tmpDir.exists()) {
-            tmpDir.mkdir();
+            tmpDir.mkdirs();
         }
         File img = new File(tmpDir.getAbsolutePath() + "/" + fileName);
         try {
@@ -81,10 +81,6 @@ public class ImgProcess {
         if (file.exists()) {
             file.delete();
         }
-    }
-
-    public static void loadAndSave() {
-
     }
 
 }

@@ -25,7 +25,9 @@ import okhttp3.Response;
 
 public class Global {
 
-    public static final String BASE_URL= "http://192.168.43.43:8080/demo";
+    //public static final String BASE_URL= "http://192.168.43.43:8080/demo"; //本地电脑
+    //public static final String BASE_URL= "http://192.168.43.43:8080/demo"; //本地
+    public static final String BASE_URL= "http://106.14.5.10:8080/demo"; //云服务器
 
     public static OkHttpClient.Builder builder = new OkHttpClient.Builder()
             .connectTimeout(3, TimeUnit.SECONDS) //连接超时时间
@@ -59,8 +61,8 @@ public class Global {
             jsonObject.put("msg", "success");
         } catch (Exception e) {
             jsonObject.put("code", 0);
-            jsonObject.put("msg", "服务器错误");
-            Log.i("mms_Global_httpPost", e.getMessage());
+            jsonObject.put("msg", "连接超时");
+            //Log.i("mms_Global_httpPost", e.getMessage());
         } finally {
             return jsonObject;
         }
@@ -88,7 +90,7 @@ public class Global {
             jsonObject.put("msg", "success");
         } catch (Exception e) {
             jsonObject.put("code", 0);
-            jsonObject.put("msg", "服务器错误");
+            jsonObject.put("msg", "连接超时");
             Log.i("mms_Global_uploadImg", e.getMessage());
         } finally {
             return jsonObject;

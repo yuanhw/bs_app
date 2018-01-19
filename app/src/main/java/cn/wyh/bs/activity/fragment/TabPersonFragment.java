@@ -33,7 +33,8 @@ public class TabPersonFragment extends Fragment {
     private TextView rt; //退出登录控件
     private ImageView tou_img; //头像控件
     private TextView name; //姓名控件
-    private TextView acount, reCharge; //余额控件，充值控件
+    private TextView account; // 余额控件
+    private View reCharge; //充值控件
 
     private Uri uri;
     @Nullable
@@ -62,7 +63,7 @@ public class TabPersonFragment extends Fragment {
     private void initData() {
         User user = KeyValueTable.getObject("user", User.class);
         this.name.setText(user.getUserName());
-        this.acount.setText(user.getAccount() + "");
+        this.account.setText(user.getAccount() + "");
         String[] imgName = user.getTouImgPath().split("/");
          uri= ImgProcess.getImgPath(imgName[imgName.length - 1]);
         //Log.i("mms_initData", uri.toString());
@@ -72,8 +73,8 @@ public class TabPersonFragment extends Fragment {
     private void initOne(View view) {
         this.tou_img = (ImageView) view.findViewById(R.id.person_tou_img);
         this.name = (TextView) view.findViewById(R.id.person_name);
-        this.acount = (TextView) view.findViewById(R.id.person_account);
-        this.reCharge = (TextView) view.findViewById(R.id.person_recharge);
+        this.account = (TextView) view.findViewById(R.id.person_account);
+        this.reCharge = view.findViewById(R.id.person_recharge);
 
         this.tou_img.setOnClickListener(new View.OnClickListener() {
             @Override

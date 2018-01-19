@@ -167,6 +167,7 @@ public class Login extends BaseActivity {
         }).start();
     }
 
+    //加载用户头像
     private void loadImg(final String uri) {
         new Thread(new Runnable() {
             @Override
