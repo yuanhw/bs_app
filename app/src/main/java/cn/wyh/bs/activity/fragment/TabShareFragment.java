@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 
 import cn.wyh.bs.R;
 
+/**
+ *  地主圈tab
+ */
 public class TabShareFragment extends Fragment {
 
     @Nullable

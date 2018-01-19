@@ -28,13 +28,16 @@ import cn.wyh.bs.common.Status;
 import cn.wyh.bs.entity.User;
 import cn.wyh.bs.storage.KeyValueTable;
 
+/**
+ *  我的tab
+ */
 public class TabPersonFragment extends Fragment {
 
     private TextView rt; //退出登录控件
     private ImageView tou_img; //头像控件
     private TextView name; //姓名控件
     private TextView account; // 余额控件
-    private View reCharge; //充值控件
+    private TextView reCharge; //充值控件
 
     private Uri uri;
     @Nullable
@@ -74,7 +77,7 @@ public class TabPersonFragment extends Fragment {
         this.tou_img = (ImageView) view.findViewById(R.id.person_tou_img);
         this.name = (TextView) view.findViewById(R.id.person_name);
         this.account = (TextView) view.findViewById(R.id.person_account);
-        this.reCharge = view.findViewById(R.id.person_recharge);
+        this.reCharge = (TextView) view.findViewById(R.id.person_recharge);
 
         this.tou_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +90,8 @@ public class TabPersonFragment extends Fragment {
         this.reCharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TabPersonFragment.this.getContext(), "充值", Toast.LENGTH_LONG);
+                //Log.i("mms_TabPersonFragment", "充值");
+                Toast.makeText(TabPersonFragment.this.getContext(), "充值", Toast.LENGTH_LONG).show();
             }
         });
     }

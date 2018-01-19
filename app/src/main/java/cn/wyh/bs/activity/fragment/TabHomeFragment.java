@@ -17,9 +17,12 @@ import java.util.Random;
 import cn.wyh.bs.R;
 import cn.wyh.bs.adapter.FarmAdapter;
 import cn.wyh.bs.entity.Farm;
-import cn.wyh.bs.activity.fragment.show.AdvertImg;
-import cn.wyh.bs.activity.fragment.show.Gv;
+import cn.wyh.bs.activity.fragment.show.TabHomeAdvert;
+import cn.wyh.bs.activity.fragment.show.TabHomeTable;
 
+/**
+ *  首页tab
+ */
 public class TabHomeFragment extends Fragment {
 
     private final int itemHeight = 363; //列表子项大小
@@ -31,11 +34,11 @@ public class TabHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_home_fragment, container, false);
 
         //广告栏
-        AdvertImg advertImg = new AdvertImg(this.getContext(), view.findViewById(R.id.tab_home_ad));
+        TabHomeAdvert advertImg = new TabHomeAdvert(this.getContext(), view.findViewById(R.id.tab_home_ad));
         advertImg.exec();
 
         //快捷菜单栏
-        Gv gv = new Gv(this.getContext(), (GridView) view.findViewById(R.id.tab_home_gv));
+        TabHomeTable gv = new TabHomeTable(this.getContext(), (GridView) view.findViewById(R.id.tab_home_gv));
         gv.exec();
 
         //初始化列表数据

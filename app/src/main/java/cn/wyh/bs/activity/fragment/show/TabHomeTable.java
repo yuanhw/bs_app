@@ -2,6 +2,7 @@ package cn.wyh.bs.activity.fragment.show;
 
 /**
  * Created by WYH on 2017/12/24.
+ *  首页表格设置
  */
 
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ import android.widget.Toast;
 
 import cn.wyh.bs.R;
 
-public class Gv {
+public class TabHomeTable {
     private GridView gridView; //表格控件
     private Context context; //上下文
     private String[] from = { "image", "title" };
     private int[] to = { R.id.gv_img, R.id.gv_title };
 
-    public Gv(Context context, GridView gridView) {
+    public TabHomeTable(Context context, GridView gridView) {
         this.gridView = gridView;
         this.context = context;
     }

@@ -2,6 +2,7 @@ package cn.wyh.bs.activity.fragment.show;
 
 /**
  * Created by WYH on 2017/12/24.
+ *  首页广告栏设置
  */
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import android.widget.Toast;
 
 import cn.wyh.bs.R;
 
-public class AdvertImg {
+public class TabHomeAdvert {
     private ImageView mDefaultImage;
     private ViewPager mImagePager;
     private ImageView[] mImageViews;
@@ -37,7 +38,7 @@ public class AdvertImg {
     float posX;
     float posY;
 
-    public AdvertImg(Context context, View contextView) {
+    public TabHomeAdvert(Context context, View contextView) {
         this.mContext = context;
         this.contextView = contextView;
     }

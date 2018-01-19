@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 
 /**
  * Created by WYH on 2018/1/17.
+ *  存储权限
  */
 
 public class PermissionUtils {

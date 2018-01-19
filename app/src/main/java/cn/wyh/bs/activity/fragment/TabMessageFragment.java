@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 
 import cn.wyh.bs.R;
 
+/**
+ *  消息tab
+ */
 public class TabMessageFragment extends Fragment {
 
     @Nullable
