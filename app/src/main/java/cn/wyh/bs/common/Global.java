@@ -21,6 +21,7 @@ import okhttp3.Response;
 
 /**
  * Created by WYH on 2018/1/2.
+ *  全局函数
  */
 
 public class Global {
@@ -107,7 +108,7 @@ public class Global {
             Response response = okHttpClient.newCall(request).execute();
             return response.body().byteStream();
         } catch (Exception e) {
-           throw new Exception("");
+           throw new Exception("上传异常");
         }
     }
 

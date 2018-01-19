@@ -1,4 +1,4 @@
-package cn.wyh.bs.show;
+package cn.wyh.bs.activity.fragment.show;
 
 /**
  * Created by WYH on 2017/12/24.

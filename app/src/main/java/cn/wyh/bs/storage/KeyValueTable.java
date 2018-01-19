@@ -18,7 +18,7 @@ public class KeyValueTable {
     private static SQLiteDatabase db;
 
     /**
-     *  通过key获取实体对象，类似于h5 localSession
+     *  通过key获取实体对象
      */
     public static <T> T getObject(SQLiteDatabase db, String key, Class<T> entity) {
         Cursor cursor = db.rawQuery(SQL_QUERY, new String[]{key});
@@ -28,6 +28,9 @@ public class KeyValueTable {
         return JSON.parseObject(jsonStr, entity);
     }
 
+    /**
+     *  获取对象
+     */
     public static <T> T getObject(String key, Class<T> entity) {
         db = DBHelper.getSQLiteDatabase();
         Cursor cursor = db.rawQuery(SQL_QUERY, new String[]{key});
@@ -43,17 +46,15 @@ public class KeyValueTable {
     /**
      *  增加对象
      */
-    public static void addObject(SQLiteDatabase db, String key, Object obj) {
-        db.execSQL(SQL_DEL, new Object[] {key});
-        db.execSQL(SQL_INSERT, new Object[] {key, JSON.toJSONString(obj)});
-    }
-
     public static void addObject(String key, Object obj) {
         db = DBHelper.getSQLiteDatabase();
         db.execSQL(SQL_DEL, new Object[] {key});
         db.execSQL(SQL_INSERT, new Object[] {key, JSON.toJSONString(obj)});
     }
 
+    /**
+     *  移除对象通过key
+     */
     public static void removeObject(String key) {
         db = DBHelper.getSQLiteDatabase();
         db.execSQL(SQL_DEL, new Object[] {key});

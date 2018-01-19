@@ -17,8 +17,8 @@ import java.util.Random;
 import cn.wyh.bs.R;
 import cn.wyh.bs.adapter.FarmAdapter;
 import cn.wyh.bs.entity.Farm;
-import cn.wyh.bs.show.AdvertImg;
-import cn.wyh.bs.show.Gv;
+import cn.wyh.bs.activity.fragment.show.AdvertImg;
+import cn.wyh.bs.activity.fragment.show.Gv;
 
 public class TabHomeFragment extends Fragment {
 

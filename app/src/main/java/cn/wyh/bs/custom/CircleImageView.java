@@ -19,6 +19,9 @@ import android.support.v7.widget.AppCompatImageView;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
+/**
+ *  自定义圆形img视图
+ */
 public class CircleImageView extends AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
@@ -161,7 +164,6 @@ public class CircleImageView extends AppCompatImageView {
     }
 
     /**
-     * @param borderWidth
      *   圆形的边框厚度。
      */
     public void setBorderWidth(int borderWidth) {
