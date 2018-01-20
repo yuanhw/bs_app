@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.alibaba.fastjson.JSON;
 
+import cn.wyh.bs.entity.User;
+
 /**
  * Created by WYH on 2018/1/18.
  */
@@ -14,6 +16,7 @@ public class KeyValueTable {
     private static final String SQL_QUERY = "select value from key_value where key = ?";
     private static final String SQL_DEL = "delete from key_value where key = ?";
     private static final String SQL_INSERT = "insert into key_value values(?, ?)";
+    private static final String SQL_UPDATE = "update key_value set value = ? where key = ?";
 
     private static SQLiteDatabase db;
 
@@ -58,5 +61,15 @@ public class KeyValueTable {
     public static void removeObject(String key) {
         db = DBHelper.getSQLiteDatabase();
         db.execSQL(SQL_DEL, new Object[] {key});
+    }
+
+    /**
+     * 更新
+     * @param key
+     * @param value
+     */
+    public static void updateObject(String key, Object value) {
+        db = DBHelper.getSQLiteDatabase();
+        db.execSQL(SQL_UPDATE, new Object[] {JSON.toJSONString(value), key});
     }
 }

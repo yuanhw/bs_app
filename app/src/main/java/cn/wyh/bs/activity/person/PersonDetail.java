@@ -196,6 +196,8 @@ public class PersonDetail extends BaseActivity {
                     Uri uri = ImgProcess.saveBitmap(bm, this.user.getUserPhone()+'_' + realImgName);
                     //Log.i("PersonDetail_uri", uri.toString());
                     uploadImg(uri);
+                    user.setTouImgPath(this.user.getUserPhone() + '_' + realImgName);
+                    KeyValueTable.updateObject("user", user);
                     this.w_tou_img.setImageBitmap(bm);
                 }
                 break;

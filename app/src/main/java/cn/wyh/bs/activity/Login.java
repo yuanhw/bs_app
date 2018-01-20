@@ -68,7 +68,8 @@ public class Login extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (validate()) {
-                    sendRequest(w_phone.getText().toString(), w_password.getText().toString());
+                    String password = w_password.getText().toString();
+                    sendRequest(w_phone.getText().toString(), Global.getMD5(password));
                 }
                 //测试环境，不验证，不请求
                 //sendRequest0(w_phone.getText().toString(), w_password.getText().toString());
@@ -93,6 +94,7 @@ public class Login extends BaseActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 this.w_phone.setText(data.getStringExtra("phone"));
+                this.w_password.setText("");
                 Toast.makeText(Login.this, "注册成功，请登录", Toast.LENGTH_LONG).show();
             }
         }

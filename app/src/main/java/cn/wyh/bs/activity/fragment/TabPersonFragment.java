@@ -39,7 +39,6 @@ public class TabPersonFragment extends Fragment {
     private TextView account; // 余额控件
     private TextView reCharge; //充值控件
 
-    private Uri uri;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,8 +54,10 @@ public class TabPersonFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //Log.i("mms____", "onStart");
         if (Status.isImgUpdate) {
+            User user = KeyValueTable.getObject("user", User.class);
+            String[] imgName = user.getTouImgPath().split("/");
+            Uri uri= ImgProcess.getImgPath(imgName[imgName.length - 1]);
             Bitmap bm = BitmapFactory.decodeFile(uri.getPath());
             this.tou_img.setImageBitmap(bm);
             Status.isImgUpdate = false;
@@ -68,7 +69,7 @@ public class TabPersonFragment extends Fragment {
         this.name.setText(user.getUserName());
         this.account.setText(user.getAccount() + "");
         String[] imgName = user.getTouImgPath().split("/");
-         uri= ImgProcess.getImgPath(imgName[imgName.length - 1]);
+        Uri uri= ImgProcess.getImgPath(imgName[imgName.length - 1]);
         //Log.i("mms_initData", uri.toString());
         this.tou_img.setImageURI(uri);
     }
