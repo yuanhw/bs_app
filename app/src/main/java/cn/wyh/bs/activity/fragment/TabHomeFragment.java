@@ -16,7 +16,7 @@ import java.util.Random;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.adapter.FarmAdapter;
-import cn.wyh.bs.entity.Farm;
+import cn.wyh.bs.bean.Farm;
 import cn.wyh.bs.activity.fragment.show.TabHomeAdvert;
 import cn.wyh.bs.activity.fragment.show.TabHomeTable;
 
@@ -50,7 +50,7 @@ public class TabHomeFragment extends Fragment {
         rv.removeAllViewsInLayout();
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(manager);
-        FarmAdapter adapter = new FarmAdapter(farms);
+        FarmAdapter adapter = new FarmAdapter(this.getContext(),farms);
         rv.setAdapter(adapter);
 
         //不可滚动
@@ -65,9 +65,10 @@ public class TabHomeFragment extends Fragment {
     private void initFarms() {
         farms.clear();
         Random random = new Random(47);
+        String[] imgs = new String[]{"/farmImg/farm1.png", "/farmImg/farm2.png", "/farmImg/farm3.png"};
         for (int i=1; i <= 20; i++) {
-            Farm f = new Farm("天空农场"+i, "规格：20㎡、30㎡、1亩", "已有地主：" + (20 + i) + "人",
-                    random.nextInt(1000) + "km", R.drawable.farm1);
+            Farm f = new Farm(i, "天空农场"+i, "规格：20㎡、30㎡、1亩", "已有地主：" + (20 + i) + "人",
+                    random.nextInt(1000) + "km", imgs[i % 3]);
             this.farms.add(f);
         }
     }
