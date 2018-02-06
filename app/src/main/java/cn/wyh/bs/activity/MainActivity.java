@@ -1,5 +1,6 @@
 package cn.wyh.bs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -12,9 +13,15 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.home.CityActivity;
 import cn.wyh.bs.bean.Tab;
 import cn.wyh.bs.activity.fragment.*;
+import cn.wyh.bs.common.Const;
+import cn.wyh.bs.common.LocationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +46,7 @@ public class MainActivity extends FragmentActivity{
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
         initToolbarContext(); //实例化标题栏
         initTab(); //实例化底部菜单栏
+        location();
     }
 
     @Override
@@ -65,8 +73,9 @@ public class MainActivity extends FragmentActivity{
         this.drop_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("mms_MainActivity", "555");
-                Toast.makeText(MainActivity.this, city.getText().toString(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, CityActivity.class);
+                intent.putExtra("cityName", city.getText().toString());
+                startActivityForResult(intent, Const.REQUEST_CITY_ACTIVITY_CODE);
             }
         });
     }
@@ -106,6 +115,7 @@ public class MainActivity extends FragmentActivity{
                 switch (tabId) {
                     case "home":
                         Log.i("mms_tab", "666");
+                        location();
                         toolbar.removeAllViews();
                         toolbar.addView(views[0]);
                         break;
@@ -144,4 +154,31 @@ public class MainActivity extends FragmentActivity{
         return view;
     }
 
+    /**
+     * CityActivity返回处理
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQUEST_CITY_ACTIVITY_CODE) {
+            if (resultCode == RESULT_OK) {
+                this.city.setText(data.getStringExtra("cityName"));
+            }
+        }
+    }
+
+    /**
+     *  获取位置
+     */
+    private void location() {
+        LocationUtils.getLocationClient(getApplicationContext(), new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                city.setText(bdLocation.getCity());
+                Log.i("mms_l", bdLocation.getAddrStr() + " _ " + bdLocation.getProvince() + " - " + bdLocation.getLocType());
+            }
+        });
+    }
 }

@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.InputStream;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.home.CityActivity;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.ImgProcess;
 import cn.wyh.bs.common.PermissionUtils;
@@ -67,12 +68,18 @@ public class Login extends BaseActivity {
         this.w_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (validate()) {
                     String password = w_password.getText().toString();
                     sendRequest(w_phone.getText().toString(), Global.getMD5(password));
                 }
+
                 //测试环境，不验证，不请求
                 //sendRequest0(w_phone.getText().toString(), w_password.getText().toString());
+                /*
+                Intent intent = new Intent(Login.this, LocationTest.class);
+                startActivity(intent);
+                */
             }
         });
 
@@ -85,7 +92,8 @@ public class Login extends BaseActivity {
     private void appInit() {
         // 创建storage.db数据库
         DBHelper.instance(Login.this, 1);
-        PermissionUtils.verifyStoragePermissions(Login.this);
+        PermissionUtils.verifyLocationPermissions(Login.this);
+        //PermissionUtils.verifyStoragePermissions(Login.this);
     }
 
     /* 接收reg的数据*/

@@ -27,7 +27,7 @@ import okhttp3.Response;
 
 public class Global {
 
-    public static final String BASE_URL= "http://192.168.43.43:8080/demo"; //本地电脑
+    public static final String BASE_URL= "http://192.168.0.102:8080/demo"; //本地电脑
     //public static final String BASE_URL= "http://106.14.5.10:8080/demo"; //云服务器
 
     public static OkHttpClient.Builder builder = new OkHttpClient.Builder()
@@ -45,6 +45,11 @@ public class Global {
 
     /* ajaxPost请求 */
     public static JSONObject httpPost(String url, String jsonString) {
+        if (jsonString == null) {
+            JSONObject noObj = new JSONObject();
+            noObj.put("token", "wyh");
+            jsonString = noObj.toJSONString();
+        }
         final JSONObject jsonObject = new JSONObject();
         try {
             OkHttpClient okHttpClient = builder.build();
@@ -63,7 +68,8 @@ public class Global {
         } catch (Exception e) {
             jsonObject.put("code", 0);
             jsonObject.put("msg", "连接超时");
-            //Log.i("mms_Global_httpPost", e.getMessage());
+            Log.i("mms_http", e.getMessage() + " error");
+            e.printStackTrace();
         } finally {
             return jsonObject;
         }
