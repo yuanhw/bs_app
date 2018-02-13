@@ -1,6 +1,7 @@
 package cn.wyh.bs.activity;
 
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -11,10 +12,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.baidu.mapapi.model.inner.GeoPoint;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.home.CityActivity;
@@ -22,9 +24,11 @@ import cn.wyh.bs.bean.Tab;
 import cn.wyh.bs.activity.fragment.*;
 import cn.wyh.bs.common.Const;
 import cn.wyh.bs.common.LocationUtils;
+import cn.wyh.bs.storage.KeyValueTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends FragmentActivity{
 
@@ -44,9 +48,10 @@ public class MainActivity extends FragmentActivity{
 
         /* 获取标题栏控件 */
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //获取位置
+        location();
         initToolbarContext(); //实例化标题栏
         initTab(); //实例化底部菜单栏
-        location();
     }
 
     @Override
@@ -114,7 +119,7 @@ public class MainActivity extends FragmentActivity{
             public void onTabChanged(String tabId) {
                 switch (tabId) {
                     case "home":
-                        Log.i("mms_tab", "666");
+                        //Log.i("mms_tab", "666");
                         location();
                         toolbar.removeAllViews();
                         toolbar.addView(views[0]);
@@ -165,6 +170,8 @@ public class MainActivity extends FragmentActivity{
         if (requestCode == Const.REQUEST_CITY_ACTIVITY_CODE) {
             if (resultCode == RESULT_OK) {
                 this.city.setText(data.getStringExtra("cityName"));
+                GeoPoint pos = LocationUtils.getGeoPointBystr(MainActivity.this, data.getStringExtra("cityName"));
+                Log.i("mms_poss", pos.toString());
             }
         }
     }
@@ -177,7 +184,11 @@ public class MainActivity extends FragmentActivity{
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 city.setText(bdLocation.getCity());
-                Log.i("mms_l", bdLocation.getAddrStr() + " _ " + bdLocation.getProvince() + " - " + bdLocation.getLocType());
+                JSONObject pos = new JSONObject();
+                pos.put("lat", bdLocation.getLatitude());
+                pos.put("lng", bdLocation.getLongitude());
+                KeyValueTable.addObject("pos", pos);
+                Log.i("mms_l", bdLocation.getLatitude() + " - " + bdLocation.getLongitude());
             }
         });
     }

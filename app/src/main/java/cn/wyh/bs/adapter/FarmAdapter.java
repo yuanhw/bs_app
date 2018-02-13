@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import cn.wyh.bs.bean.LateLySimplyFarm;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.bean.Farm;
 import cn.wyh.bs.R;
@@ -23,9 +24,9 @@ import cn.wyh.bs.R;
 
 public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.ViewHolder> {
     private Context context;
-    private List<Farm> farms;
+    private List<LateLySimplyFarm> farms;
 
-    public FarmAdapter(Context context, List<Farm> farms) {
+    public FarmAdapter(Context context, List<LateLySimplyFarm> farms) {
         this.context = context;
         this.farms = farms;
     }
@@ -47,16 +48,16 @@ public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Farm farm = farms.get(position);
-        String url = Global.BASE_URL + farm.getFarmImg();
+        LateLySimplyFarm farm = farms.get(position);
+        String url = Global.BASE_URL + farm.getFmImg();
 
         //异步加载图片列表
         Picasso.with(this.context).load(url).into(holder.farmImg);
 
-        holder.tv0.setText(farm.getId() + "");
-        holder.tv1.setText(farm.getName());
+        holder.tv0.setText(String.valueOf(farm.getId()));
+        holder.tv1.setText(farm.getFmTitle());
         holder.tv2.setText(farm.getSpec());
-        holder.tv3.setText(farm.getConsumers());
+        holder.tv3.setText(String.valueOf(farm.getConsumerNum()));
         holder.tv4.setText(farm.getDistance());
     }
 
@@ -78,4 +79,5 @@ public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.ViewHolder> {
             tv4 = (TextView) itemView.findViewById(R.id.item_distance);
         }
     }
+
 }

@@ -62,6 +62,9 @@ public class CityActivity extends Activity {
         });
     }
 
+    /**
+     *  加载城市列表
+     */
     private void initCityListData() {
         new Thread(new Runnable() {
             @Override
@@ -76,8 +79,13 @@ public class CityActivity extends Activity {
                         cityNames[i] = c.getValue();
                         i++;
                     }
-                    CityAdapter adapter = new CityAdapter(CityActivity.this, R.layout.city_list_view, cityNames);
-                    listView.setAdapter(adapter);
+                    CityActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CityAdapter adapter = new CityAdapter(CityActivity.this, R.layout.city_list_view, cityNames);
+                            listView.setAdapter(adapter);
+                        }
+                    });
                 }
             }
         }).start();

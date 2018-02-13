@@ -5,20 +5,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.adapter.FarmAdapter;
-import cn.wyh.bs.bean.Farm;
 import cn.wyh.bs.activity.fragment.show.TabHomeAdvert;
 import cn.wyh.bs.activity.fragment.show.TabHomeTable;
+import cn.wyh.bs.bean.LateLySimplyFarm;
+import cn.wyh.bs.common.Global;
+import cn.wyh.bs.storage.KeyValueTable;
 
 /**
  *  首页tab
@@ -26,7 +32,9 @@ import cn.wyh.bs.activity.fragment.show.TabHomeTable;
 public class TabHomeFragment extends Fragment {
 
     private final int itemHeight = 363; //列表子项大小
-    private List<Farm> farms = new ArrayList<>(); //列表数据
+    private List<LateLySimplyFarm> farms = new ArrayList<>(); //列表数据
+    private RecyclerView rv;
+    private FarmAdapter adapter;
 
     @Nullable
     @Override
@@ -41,35 +49,57 @@ public class TabHomeFragment extends Fragment {
         TabHomeTable gv = new TabHomeTable(this.getContext(), (GridView) view.findViewById(R.id.tab_home_gv));
         gv.exec();
 
-        //初始化列表数据
-        initFarms();
-
         //设置recyclerView
-        RecyclerView rv = (RecyclerView) view.findViewById(R.id.home_rv);
+        rv = (RecyclerView) view.findViewById(R.id.home_rv);
         rv.removeAllViews();
         rv.removeAllViewsInLayout();
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(manager);
-        FarmAdapter adapter = new FarmAdapter(this.getContext(),farms);
-        rv.setAdapter(adapter);
-
         //不可滚动
         rv.setNestedScrollingEnabled(false);
-
         //设置长度
         rv.setMinimumHeight(this.itemHeight * this.farms.size());
 
+        adapter = new FarmAdapter(this.getContext(),farms);
+        rv.setAdapter(adapter);
+
+        //初始化列表数据
+        initFarms();
         return view;
     }
 
+    /**
+     *  加载附近农场信息
+     */
     private void initFarms() {
-        farms.clear();
-        Random random = new Random(47);
-        String[] imgs = new String[]{"/farmImg/farm1.png", "/farmImg/farm2.png", "/farmImg/farm3.png"};
-        for (int i=1; i <= 20; i++) {
-            Farm f = new Farm(i, "天空农场"+i, "规格：20㎡、30㎡、1亩", "已有地主：" + (20 + i) + "人",
-                    random.nextInt(1000) + "km", imgs[i % 3]);
-            this.farms.add(f);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject param = KeyValueTable.getObject("pos", JSONObject.class);
+                Log.i("mms_pa", KeyValueTable.getObject("pos", JSONObject.class) + " 666");
+                if (param == null) {
+                    param = new JSONObject();
+                    param.put("lat", "39.916485");
+                    param.put("lng", "116.403694");
+                }
+                JSONObject jsonObject = Global.httpPost("/farm/loadLateLyFarm.do", param.toJSONString());
+                if (jsonObject.getInteger("code") == 1) {
+                    String respStr = jsonObject.getString("respStr");
+                    JSONObject resp = (JSONObject) JSON.parse(respStr);
+                    //adapter.notifyItemRangeRemoved(0, farms.size());
+                    List<LateLySimplyFarm> farmss = JSONArray.parseArray(resp.getString("data"), LateLySimplyFarm.class);
+                    farms.clear();
+                    farms.addAll(farmss);
+                    //Log.i("farms_mms", farms.toString());
+                    TabHomeFragment.this.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            rv.setMinimumHeight(itemHeight * farms.size());
+                            adapter.notifyItemRangeInserted(0, farms.size());
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

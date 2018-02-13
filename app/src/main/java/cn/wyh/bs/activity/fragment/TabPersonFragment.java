@@ -119,7 +119,7 @@ public class TabPersonFragment extends Fragment {
     /* 退出登录事件 */
     private void personReturn() {
         KeyValueTable.removeObject("user");
-        ActivityManager.finashAll();
+        ActivityManager.finishAll();
         Intent intent = new Intent(this.getContext(), Login.class);
         startActivity(intent);
         return;
