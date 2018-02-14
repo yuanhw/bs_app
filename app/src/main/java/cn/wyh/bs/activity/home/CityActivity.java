@@ -18,11 +18,12 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.List;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.BaseActivity;
 import cn.wyh.bs.adapter.CityAdapter;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.entity.City;
 
-public class CityActivity extends Activity {
+public class CityActivity extends BaseActivity {
 
     private String[] cityNames;
     private ListView listView;

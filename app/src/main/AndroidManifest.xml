@@ -54,8 +54,8 @@
         </activity>
         <activity android:name=".activity.Reg" />
         <activity android:name=".activity.person.PersonDetail" />
-        <activity android:name=".activity.LocationTest" />
         <activity android:name=".activity.home.CityActivity"/>
+        <activity android:name=".activity.home.FarmDetailedActivity"/>
     </application>
 
 </manifest>
