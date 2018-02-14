@@ -59,7 +59,7 @@ public class TabHomeFragment extends Fragment {
         //不可滚动
         rv.setNestedScrollingEnabled(false);
         //设置长度
-        rv.setMinimumHeight(this.itemHeight * this.farms.size());
+        //rv.setMinimumHeight(this.itemHeight * this.farms.size());
 
         adapter = new FarmAdapter(this.getContext(),farms);
         rv.setAdapter(adapter);
@@ -96,9 +96,9 @@ public class TabHomeFragment extends Fragment {
                         @Override
                         public void run() {
                             /*
-                            rv.setMinimumHeight(itemHeight * farms.size());
                             adapter.notifyItemRangeInserted(0, farms.size());
                             */
+                            rv.setMinimumHeight(itemHeight * farms.size());
                             adapter = new FarmAdapter(getContext(),farms);
                             rv.setAdapter(adapter);
                         }

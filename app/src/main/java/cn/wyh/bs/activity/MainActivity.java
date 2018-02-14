@@ -171,7 +171,7 @@ public class MainActivity extends FragmentActivity{
             if (resultCode == RESULT_OK) {
                 this.city.setText(data.getStringExtra("cityName"));
                 GeoPoint pos = LocationUtils.getGeoPointBystr(MainActivity.this, data.getStringExtra("cityName"));
-                Log.i("mms_poss", pos.toString());
+                //Log.i("mms_poss", pos.toString());
                 JSONObject pos_0 = new JSONObject();
                 pos_0.put("lat", pos.getLatitudeE6());
                 pos_0.put("lng", pos.getLongitudeE6());

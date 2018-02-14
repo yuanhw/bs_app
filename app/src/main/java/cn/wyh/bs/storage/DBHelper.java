@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
+ *  创建数据库表类
  * Created by WYH on 2018/1/18.
  */
 
@@ -14,6 +15,14 @@ public class DBHelper extends SQLiteOpenHelper {
      *  key_value建表语句
      */
     private static final String KEY_VALUE_TABLE= "create table key_value (" +
+            " key text primary key," +
+            " value text" +
+            ")";
+
+    /**
+     *  key_value_session建表语句
+     */
+    private static final String KEY_VALUE_SESSION_TABLE = "create table key_value_session (" +
             " key text primary key," +
             " value text" +
             ")";
@@ -53,7 +62,5 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 }

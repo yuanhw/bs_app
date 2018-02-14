@@ -4,11 +4,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
-import cn.wyh.bs.entity.User;
 
 /**
+ *  操作key_value表
+ *  存储数据到SQLite数据库中
  * Created by WYH on 2018/1/18.
  */
 
