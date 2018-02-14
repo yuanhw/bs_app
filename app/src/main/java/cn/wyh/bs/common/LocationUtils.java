@@ -54,8 +54,6 @@ public class LocationUtils {
                     //计算经纬度
                     double Latitude=address_temp.getLatitude();
                     double Longitude=address_temp.getLongitude();
-                    System.out.println("经度："+Latitude);
-                    System.out.println("纬度："+Longitude);
                     //生产GeoPoint
                     gpGeoPoint = new GeoPoint(Latitude, Longitude);
                 }

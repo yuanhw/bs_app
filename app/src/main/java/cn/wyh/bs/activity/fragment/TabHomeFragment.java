@@ -39,6 +39,7 @@ public class TabHomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //Log.i("mms_v", "1234552145");
         View view = inflater.inflate(R.layout.tab_home_fragment, container, false);
 
         //广告栏
@@ -76,7 +77,7 @@ public class TabHomeFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject param = KeyValueTable.getObject("pos", JSONObject.class);
-                Log.i("mms_pa", KeyValueTable.getObject("pos", JSONObject.class) + " 666");
+                Log.i("mms_pa", param + " 666");
                 if (param == null) {
                     param = new JSONObject();
                     param.put("lat", "39.916485");
@@ -94,8 +95,12 @@ public class TabHomeFragment extends Fragment {
                     TabHomeFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            /*
                             rv.setMinimumHeight(itemHeight * farms.size());
                             adapter.notifyItemRangeInserted(0, farms.size());
+                            */
+                            adapter = new FarmAdapter(getContext(),farms);
+                            rv.setAdapter(adapter);
                         }
                     });
                 }
