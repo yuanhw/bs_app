@@ -1,7 +1,6 @@
 package cn.wyh.bs.activity;
 
 import android.content.Intent;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.inner.GeoPoint;
 
 import cn.wyh.bs.R;
@@ -28,7 +28,6 @@ import cn.wyh.bs.storage.KeyValueTable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends FragmentActivity{
 

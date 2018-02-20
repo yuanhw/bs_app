@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.BaseActivity;
+import cn.wyh.bs.activity.MainActivity;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.entity.Farm;
 
@@ -25,6 +26,7 @@ import cn.wyh.bs.entity.Farm;
  */
 
 public class FarmDetailedActivity extends BaseActivity {
+    private Farm fm = new Farm();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,11 @@ public class FarmDetailedActivity extends BaseActivity {
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(FarmDetailedActivity.this, MapActivity.class);
+                //Log.i("mms_it", fm.toString());
+                intent.putExtra("lat", fm.getPosLat().toString());
+                intent.putExtra("lng", fm.getPosLng().toString());
+                startActivity(intent);
             }
         });
 
@@ -88,7 +94,7 @@ public class FarmDetailedActivity extends BaseActivity {
                 if (jsonObject.getInteger("code") == 1) {
                     String respStr = jsonObject.getString("respStr");
                     JSONObject resp = (JSONObject) JSON.parse(respStr);
-                    final Farm fm = JSONObject.parseObject(resp.getString("data"), Farm.class);
+                    fm = JSONObject.parseObject(resp.getString("data"), Farm.class);
                     //Log.i("mms_detail", respStr);
                     runOnUiThread(new Runnable() {
                         @Override
