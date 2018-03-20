@@ -84,4 +84,19 @@ public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.ViewHolder> {
         }
     }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public List<LateLySimplyFarm> getFarms() {
+        return farms;
+    }
+
+    public void setFarms(List<LateLySimplyFarm> farms) {
+        this.farms = farms;
+    }
 }

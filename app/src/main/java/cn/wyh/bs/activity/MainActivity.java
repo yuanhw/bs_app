@@ -2,8 +2,10 @@ package cn.wyh.bs.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -20,14 +24,19 @@ import com.baidu.mapapi.model.inner.GeoPoint;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.home.CityActivity;
+import cn.wyh.bs.adapter.FarmAdapter;
+import cn.wyh.bs.bean.LateLySimplyFarm;
 import cn.wyh.bs.bean.Tab;
 import cn.wyh.bs.activity.fragment.*;
 import cn.wyh.bs.common.Const;
+import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.LocationUtils;
 import cn.wyh.bs.storage.KeyValueTable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.baidu.mapapi.BMapManager.getContext;
 
 public class MainActivity extends FragmentActivity{
 
@@ -119,7 +128,7 @@ public class MainActivity extends FragmentActivity{
                 switch (tabId) {
                     case "home":
                         //Log.i("mms_tab", "666");
-                        location();
+                        //location();
                         toolbar.removeAllViews();
                         toolbar.addView(views[0]);
                         break;
@@ -175,6 +184,10 @@ public class MainActivity extends FragmentActivity{
                 pos_0.put("lat", pos.getLatitudeE6());
                 pos_0.put("lng", pos.getLongitudeE6());
                 KeyValueTable.addObject("pos", pos_0);
+                Fragment v = getSupportFragmentManager().findFragmentByTag(list.get(0).getTag());
+                RecyclerView v_list = (RecyclerView) v.getActivity().findViewById(R.id.home_rv);
+                Log.i("mms_view", v_list + " 698");
+                loadFarms(v_list);
             }
         }
     }
@@ -194,5 +207,41 @@ public class MainActivity extends FragmentActivity{
                 Log.i("mms_l", bdLocation.getLatitude() + " - " + bdLocation.getLongitude());
             }
         });
+    }
+
+    /**
+     *  加载农场列表
+     */
+    private void loadFarms(final RecyclerView rv) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject param = KeyValueTable.getObject("pos", JSONObject.class);
+                Log.i("mms_pa", param + " 666");
+                if (param == null) {
+                    param = new JSONObject();
+                    param.put("lat", "39.916485");
+                    param.put("lng", "116.403694");
+                }
+                JSONObject jsonObject = Global.httpPost("/farm/loadLateLyFarm.do", param.toJSONString());
+                if (jsonObject.getInteger("code") == 1) {
+                    String respStr = jsonObject.getString("respStr");
+                    JSONObject resp = (JSONObject) JSON.parse(respStr);
+                    //adapter.notifyItemRangeRemoved(0, farms.size());
+                    final List<LateLySimplyFarm> farmss = JSONArray.parseArray(resp.getString("data"), LateLySimplyFarm.class);
+                    //Log.i("farms_mms", farms.toString());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            rv.setMinimumHeight(363 * farmss.size());
+                            FarmAdapter adapter = TabHomeFragment.adapter;
+                            adapter.getFarms().clear();
+                            adapter.getFarms().addAll(farmss);
+                            rv.setAdapter(adapter);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

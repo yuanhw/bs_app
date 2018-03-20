@@ -34,7 +34,7 @@ public class TabHomeFragment extends Fragment {
     private final int itemHeight = 363; //列表子项大小
     private List<LateLySimplyFarm> farms = new ArrayList<>(); //列表数据
     private RecyclerView rv;
-    private FarmAdapter adapter;
+    public static FarmAdapter adapter;
 
     @Nullable
     @Override

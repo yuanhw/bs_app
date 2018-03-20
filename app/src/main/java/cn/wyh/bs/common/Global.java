@@ -27,7 +27,7 @@ import okhttp3.Response;
 
 public class Global {
 
-    public static final String BASE_URL= "http://192.168.0.102:8080/demo"; //本地电脑
+    public static final String BASE_URL= "http://192.168.43.43:8080/demo"; //本地电脑
     //public static final String BASE_URL= "http://106.14.5.10:8080/demo"; //云服务器
 
     public static OkHttpClient.Builder builder = new OkHttpClient.Builder()
