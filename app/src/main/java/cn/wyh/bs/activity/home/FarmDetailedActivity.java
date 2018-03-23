@@ -72,6 +72,7 @@ public class FarmDetailedActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(FarmDetailedActivity.this, MapActivity.class);
                 //Log.i("mms_it", fm.toString());
+                intent.putExtra("title", fm.getFmTitle());
                 intent.putExtra("lat", fm.getPosLat().toString());
                 intent.putExtra("lng", fm.getPosLng().toString());
                 startActivity(intent);

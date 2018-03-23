@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -33,6 +36,7 @@ public class MapActivity extends BaseActivity {
         setContentView(R.layout.map_activity);
 
         Intent intent = getIntent();
+        String title = intent.getStringExtra("title");
         String lat = intent.getStringExtra("lat");
         String lng = intent.getStringExtra("lng");
 
@@ -57,13 +61,23 @@ public class MapActivity extends BaseActivity {
         mBaiduMap.setMapStatus(mMapStatusUpdate);
 
         BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.position);
+                .fromResource(R.mipmap.position_3);
         //构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions()
                 .position(cenpt)
                 .icon(bitmap);
+
+        TextView view = new TextView(getApplicationContext());
+        view.setText(title);
+        view.setPadding(15, 15, 15, 15);
+        view.setBackgroundColor(android.graphics.Color.rgb(196, 196, 196));
+        InfoWindow mInfoWindow = new InfoWindow(view, cenpt, -90);
+
+       //显示InfoWindow
+        mBaiduMap.showInfoWindow(mInfoWindow);
         //在地图上添加Marker，并显示
         mBaiduMap.addOverlay(option);
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
