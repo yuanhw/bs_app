@@ -36,8 +36,6 @@ import cn.wyh.bs.storage.KeyValueTable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baidu.mapapi.BMapManager.getContext;
-
 public class MainActivity extends FragmentActivity{
 
     private FragmentTabHost mTabHost; //底部tab控件

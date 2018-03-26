@@ -13,6 +13,7 @@ public class LateLySimplyFarm implements Serializable {
     private String distance;
     private String fmImg;
     private String spec;
+    private String unitPrice;
 
     public Integer getId() {
         return id;
@@ -70,6 +71,14 @@ public class LateLySimplyFarm implements Serializable {
         this.spec = spec;
     }
 
+    public String getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(String unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
     @Override
     public String toString() {
         return "LateLySimplyFarm{" +
@@ -80,6 +89,7 @@ public class LateLySimplyFarm implements Serializable {
                 ", distance='" + distance + '\'' +
                 ", fmImg='" + fmImg + '\'' +
                 ", spec='" + spec + '\'' +
+                ", unitPrice='" + unitPrice + '\'' +
                 '}';
     }
 }

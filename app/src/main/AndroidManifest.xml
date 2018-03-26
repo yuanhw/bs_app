@@ -47,7 +47,6 @@
         <activity android:name=".activity.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,7 +54,8 @@
         <activity android:name=".activity.person.PersonDetail" />
         <activity android:name=".activity.home.CityActivity" />
         <activity android:name=".activity.home.FarmDetailedActivity" />
-        <activity android:name=".activity.home.MapActivity"></activity>
+        <activity android:name=".activity.home.MapActivity"/>
+        <activity android:name=".activity.home.lease.SearchFarmActivity"/>
     </application>
 
 </manifest>

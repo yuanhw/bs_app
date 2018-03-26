@@ -43,6 +43,7 @@ public class Global {
         return m.matches();
     }
 
+
     /* ajaxPost请求 */
     public static JSONObject httpPost(String url, String jsonString) {
         if (jsonString == null) {
@@ -69,6 +70,31 @@ public class Global {
             jsonObject.put("code", 0);
             jsonObject.put("msg", "连接超时");
             Log.i("mms_http", e.getMessage() + " error");
+            e.printStackTrace();
+        } finally {
+            return jsonObject;
+        }
+    }
+
+    /* ajaxPost2请求 */
+    public static JSONObject httpPost2(String url, String tableString) {
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            OkHttpClient okHttpClient = builder.build();
+            RequestBody requestBody =
+                    RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=utf-8"),tableString);
+            Request request = new Request.Builder()
+                    .url(BASE_URL + url)
+                    .post(requestBody)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            String dataStr = response.body().string();
+            jsonObject.put("code", 1);
+            jsonObject.put("respStr", dataStr);
+            jsonObject.put("msg", "success");
+        } catch (Exception e) {
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "连接超时");
             e.printStackTrace();
         } finally {
             return jsonObject;

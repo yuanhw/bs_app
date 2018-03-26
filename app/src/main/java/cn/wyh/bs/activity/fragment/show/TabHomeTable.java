@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -18,6 +19,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.home.lease.SearchFarmActivity;
 
 public class TabHomeTable {
     private GridView gridView; //表格控件
@@ -38,6 +40,15 @@ public class TabHomeTable {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(context, "编号：" + id, Toast.LENGTH_LONG).show();
+                switch ((int)id) {
+                    case 0: break;
+                    case 1: break;
+                    case 2:
+                        Intent intent = new Intent(context, SearchFarmActivity.class);
+                        context.startActivity(intent);
+                        break;
+                    case 3: break;
+                }
             }
         });
     }
