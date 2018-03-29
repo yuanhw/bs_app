@@ -6,4 +6,5 @@ package cn.wyh.bs.common;
 
 public class Const {
     public static final int REQUEST_CITY_ACTIVITY_CODE = 301;
+    public static final String DATE_FORMAT = "yyyy年MM月dd日";
 }

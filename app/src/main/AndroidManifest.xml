@@ -56,6 +56,7 @@
         <activity android:name=".activity.home.FarmDetailedActivity" />
         <activity android:name=".activity.home.MapActivity"/>
         <activity android:name=".activity.home.lease.SearchFarmActivity"/>
+        <activity android:name=".activity.home.lease.RuleFarmActivity"/>
     </application>
 
 </manifest>

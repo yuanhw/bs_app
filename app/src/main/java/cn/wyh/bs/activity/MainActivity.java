@@ -184,7 +184,7 @@ public class MainActivity extends FragmentActivity{
                 KeyValueTable.addObject("pos", pos_0);
                 Fragment v = getSupportFragmentManager().findFragmentByTag(list.get(0).getTag());
                 RecyclerView v_list = (RecyclerView) v.getActivity().findViewById(R.id.home_rv);
-                Log.i("mms_view", v_list + " 698");
+                //Log.i("mms_view", v_list + " 698");
                 loadFarms(v_list);
             }
         }
@@ -202,7 +202,7 @@ public class MainActivity extends FragmentActivity{
                 pos.put("lat", bdLocation.getLatitude());
                 pos.put("lng", bdLocation.getLongitude());
                 KeyValueTable.addObject("pos", pos);
-                Log.i("mms_l", bdLocation.getLatitude() + " - " + bdLocation.getLongitude());
+                //Log.i("mms_l", bdLocation.getLatitude() + " - " + bdLocation.getLongitude());
             }
         });
     }
@@ -215,7 +215,7 @@ public class MainActivity extends FragmentActivity{
             @Override
             public void run() {
                 JSONObject param = KeyValueTable.getObject("pos", JSONObject.class);
-                Log.i("mms_pa", param + " 666");
+                //Log.i("mms_pa", param + " 666");
                 if (param == null) {
                     param = new JSONObject();
                     param.put("lat", "39.916485");

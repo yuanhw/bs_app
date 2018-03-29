@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.BaseActivity;
 import cn.wyh.bs.activity.MainActivity;
+import cn.wyh.bs.activity.home.lease.RuleFarmActivity;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.entity.Farm;
 
@@ -63,7 +64,10 @@ public class FarmDetailedActivity extends BaseActivity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.i("mms_zz", "id=" + id);
+                Intent intent2 = new Intent(FarmDetailedActivity.this, RuleFarmActivity.class);
+                intent2.putExtra("id", id);
+                startActivity(intent2);
             }
         });
 
