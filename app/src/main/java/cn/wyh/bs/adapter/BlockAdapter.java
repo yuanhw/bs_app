@@ -49,12 +49,12 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
         BlockRuleShowList item = data.get(position);
         holder.tv1.setText(item.getBatchNo());
         holder.tv2.setText(item.getId() +"");
-        holder.tv3.setText(item.getSpec());
-        holder.tv4.setText(item.getMaxLease());
+        holder.tv3.setText(item.getSpec() + "");
+        holder.tv4.setText(item.getMaxLease() + "年");
         holder.tv5.setText(item.getLeaseUnit());
-        holder.tv6.setText(item.getNumber() + "");
+        holder.tv6.setText(item.getNumber() + "个");
         holder.tv7.setText(item.getHasLease() + "");
-        holder.tv8.setText(item.getUnitPrice() + "");
+        holder.tv8.setText(item.getUnitPrice() + "元");
         int type = item.getType();
         String type_s = "仅自种";
         if (type == 1) {

@@ -50,7 +50,7 @@ public class RuleFarmActivity extends BaseActivity {
         ImageView back = (ImageView) findViewById(R.id.detail_back_3);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        Log.i("mms_9", id);
+        //Log.i("mms_9", id);
 
         Spinner s1 = (Spinner) findViewById(R.id.spec_1);
         Spinner s2 = (Spinner) findViewById(R.id.spec_2);
@@ -90,7 +90,7 @@ public class RuleFarmActivity extends BaseActivity {
                     Toast.makeText(RuleFarmActivity.this, "暂无数据", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Log.i("mms_12", jsonObject.toJSONString() + "@666@" + id);
+                //Log.i("mms_12", jsonObject.toJSONString() + "@666@" + id);
                 data.clear();
                 data.addAll(list_s);
                 RuleFarmActivity.this.runOnUiThread(new Runnable() {
@@ -219,7 +219,8 @@ public class RuleFarmActivity extends BaseActivity {
             data.addAll(list);
         } else if (key.equals("所有") && !key2.equals("所有") && !key3.equals("所有")) {
             for (BlockRuleShowList item : list) {
-                if (item.getMaxLease().equals(key2) && converType(item.getType()).equals(key3))
+                String max = item.getMaxLease() + "年";
+                if (max.equals(key2) && converType(item.getType()).equals(key3))
                     data.add(item);
             }
         } else if (key.equals("所有") && key2.equals("所有") && !key3.equals("所有")) {
@@ -229,7 +230,8 @@ public class RuleFarmActivity extends BaseActivity {
             }
         } else if (key.equals("所有") && !key2.equals("所有") && key3.equals("所有")) {
             for (BlockRuleShowList item : list) {
-                if (item.getMaxLease().equals(key2))
+                String max = item.getMaxLease() + "年";
+                if (max.equals(key2))
                     data.add(item);
             }
         } else if (!key.equals("所有") && key2.equals("所有") && key3.equals("所有")) {
@@ -239,7 +241,8 @@ public class RuleFarmActivity extends BaseActivity {
             }
         } else if (!key.equals("所有") && !key2.equals("所有") && key3.equals("所有")) {
             for (BlockRuleShowList item : list) {
-                if (item.getMaxLease().equals(key2) && item.getSpec().equals(key))
+                String max = item.getMaxLease() + "年";
+                if (max.equals(key2) && item.getSpec().equals(key))
                     data.add(item);
             }
         } else if (!key.equals("所有") && key2.equals("所有") && !key3.equals("所有")) {
@@ -249,7 +252,8 @@ public class RuleFarmActivity extends BaseActivity {
             }
         } else {
             for (BlockRuleShowList item : list) {
-                if (converType(item.getType()).equals(key3) && item.getSpec().equals(key) && item.getMaxLease().equals(key2))
+                String max = item.getMaxLease() + "年";
+                if (converType(item.getType()).equals(key3) && item.getSpec().equals(key) && max.equals(key2))
                     data.add(item);
             }
         }
