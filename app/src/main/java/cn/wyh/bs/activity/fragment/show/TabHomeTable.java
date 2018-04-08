@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.home.lease.SearchFarmActivity;
+import cn.wyh.bs.activity.order.OrderInfo;
 
 public class TabHomeTable {
     private GridView gridView; //表格控件
@@ -41,11 +42,14 @@ public class TabHomeTable {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(context, "编号：" + id, Toast.LENGTH_LONG).show();
                 switch ((int)id) {
-                    case 0: break;
+                    case 0:
+                        Intent intent0 = new Intent(context, OrderInfo.class);
+                        context.startActivity(intent0);
+                        break;
                     case 1: break;
                     case 2:
-                        Intent intent = new Intent(context, SearchFarmActivity.class);
-                        context.startActivity(intent);
+                        Intent intent2 = new Intent(context, SearchFarmActivity.class);
+                        context.startActivity(intent2);
                         break;
                     case 3: break;
                 }

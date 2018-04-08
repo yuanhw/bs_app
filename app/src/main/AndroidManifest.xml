@@ -59,6 +59,7 @@
         <activity android:name=".activity.home.lease.RuleFarmActivity"/>
         <activity android:name=".activity.home.lease.OrderCreate"/>
         <activity android:name=".activity.home.lease.OrderPayStatus"/>
+        <activity android:name=".activity.order.OrderInfo"/>
     </application>
 
 </manifest>

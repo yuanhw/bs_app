@@ -145,7 +145,7 @@ public class OrderCreate extends FragmentActivity implements PayPwdView.InputCal
                         startActivity(intent);
                         finish();
                     }
-                }).start();;
+                }).start();
             }
         } else {
             this.fragment.showError(true, "密码错误");

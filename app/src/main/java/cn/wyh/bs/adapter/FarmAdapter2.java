@@ -59,7 +59,7 @@ public class FarmAdapter2 extends RecyclerView.Adapter<FarmAdapter2.ViewHolder> 
         holder.tv0.setText(String.valueOf(farm.getId()));
         holder.tv1.setText(farm.getFmTitle());
         holder.tv2.setText("规格：" + farm.getSpec());
-        holder.tv3.setText("已有地主" + String.valueOf(farm.getConsumerNum()));
+        holder.tv3.setText("交易次数：" + String.valueOf(farm.getConsumerNum()));
         holder.tv4.setText(farm.getUnitPrice() + "元/亩（年）");
     }
 
