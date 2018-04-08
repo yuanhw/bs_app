@@ -44,7 +44,12 @@ public class Global {
     }
 
 
-    /* ajaxPost请求 */
+    /**
+     *  post请求
+     * @param url
+     * @param jsonString
+     * @return
+     */
     public static JSONObject httpPost(String url, String jsonString) {
         if (jsonString == null) {
             JSONObject noObj = new JSONObject();
@@ -76,7 +81,12 @@ public class Global {
         }
     }
 
-    /* ajaxPost2请求 */
+    /**
+     * 表单传递参数，中文
+     * @param url
+     * @param tableString
+     * @return
+     */
     public static JSONObject httpPost2(String url, String tableString) {
         final JSONObject jsonObject = new JSONObject();
         try {
@@ -101,6 +111,55 @@ public class Global {
         }
     }
 
+    /**
+     *  简单表单数据传参，中文参数
+     * @param url
+     * @param tableString
+     * @return
+     */
+    public static String httpPost3(String url, String tableString) {
+        String str = null;
+        try {
+            OkHttpClient okHttpClient = builder.build();
+            RequestBody requestBody =
+                    RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=utf-8"),tableString);
+            Request request = new Request.Builder()
+                    .url(BASE_URL + url)
+                    .post(requestBody)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            str = response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return str;
+        }
+    }
+
+    /**
+     *  post请求 简单数据格式
+     * @param url
+     * @param jsonString
+     * @return
+     */
+    public static JSONObject simpleHttpPost(String url, String jsonString) {
+        try {
+            OkHttpClient okHttpClient = builder.build();
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("jsonStr", jsonString)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(BASE_URL + url)
+                    .post(requestBody)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            String dataStr = response.body().string();
+            return JSONObject.parseObject(dataStr, JSONObject.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     /* 上传单张图片 */
     public static JSONObject uploadImg(String url, File imgFile, String phone) {
         final JSONObject jsonObject = new JSONObject();

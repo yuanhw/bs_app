@@ -77,7 +77,7 @@ public class TabHomeFragment extends Fragment {
             @Override
             public void run() {
                 JSONObject param = KeyValueTable.getObject("pos", JSONObject.class);
-                Log.i("mms_pa", param + " 666");
+                //Log.i("mms_pa", param + " 666");
                 if (param == null) {
                     param = new JSONObject();
                     param.put("lat", "39.916485");

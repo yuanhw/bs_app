@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/text_title_size"
                 android:textColor="@color/account_line"
-                android:text="地块规格"/>
+                android:text="选择规格"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <LinearLayout

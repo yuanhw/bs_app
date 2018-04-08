@@ -59,7 +59,7 @@ public class SearchFarmActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String cityName = tv.getText().toString();
-                Log.i("mms_search", cityName + " , " + query);
+                //Log.i("mms_search", cityName + " , " + query);
                 TableParam param = new TableParam();
                 param.add("city", cityName);
                 param.add("query", query);
@@ -97,7 +97,7 @@ public class SearchFarmActivity extends BaseActivity {
                     px.setImageResource(R.mipmap.jx_1);
                 }
                 updatePX();
-                Log.i("mms_5", tag);
+                //Log.i("mms_5", tag);
             }
         });
         px.setTag("降序");
@@ -126,7 +126,7 @@ public class SearchFarmActivity extends BaseActivity {
                 TableParam param = new TableParam();
                 param.add("city", tv.getText().toString());
                 JSONObject jsonObject = Global.httpPost2("/farm/loadSFarmByCity.do", param.toString());
-                Log.i("mms_rt", jsonObject.toJSONString());
+                //Log.i("mms_rt", jsonObject.toJSONString());
                 String respStr = jsonObject.getString("respStr");
                 JSONObject resp = (JSONObject) JSON.parse(respStr);
                 final List<LateLySimplyFarm> farmss = JSONArray.parseArray(resp.getString("data"), LateLySimplyFarm.class);

@@ -57,6 +57,8 @@
         <activity android:name=".activity.home.MapActivity"/>
         <activity android:name=".activity.home.lease.SearchFarmActivity"/>
         <activity android:name=".activity.home.lease.RuleFarmActivity"/>
+        <activity android:name=".activity.home.lease.OrderCreate"/>
+        <activity android:name=".activity.home.lease.OrderPayStatus"/>
     </application>
 
 </manifest>

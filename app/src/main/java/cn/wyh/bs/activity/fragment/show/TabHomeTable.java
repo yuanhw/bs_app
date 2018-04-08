@@ -39,7 +39,7 @@ public class TabHomeTable {
         this.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "编号：" + id, Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "编号：" + id, Toast.LENGTH_LONG).show();
                 switch ((int)id) {
                     case 0: break;
                     case 1: break;

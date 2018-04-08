@@ -1,8 +1,10 @@
 package cn.wyh.bs.activity.home.lease;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,6 +27,7 @@ import java.util.Map;
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.BaseActivity;
 import cn.wyh.bs.adapter.BlockAdapter;
+import cn.wyh.bs.bean.ShareOrderDto;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.TableParam;
 import cn.wyh.bs.entity.BlockRuleShowList;
@@ -41,6 +44,7 @@ public class RuleFarmActivity extends BaseActivity {
     private BlockAdapter adapter;
     private RecyclerView list_rv;
     private List<String> s1_list, s2_list;
+    private Spinner s1, s2, s3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,13 +56,14 @@ public class RuleFarmActivity extends BaseActivity {
         id = intent.getStringExtra("id");
         //Log.i("mms_9", id);
 
-        Spinner s1 = (Spinner) findViewById(R.id.spec_1);
-        Spinner s2 = (Spinner) findViewById(R.id.spec_2);
-        Spinner s3 = (Spinner) findViewById(R.id.spec_3);
+        s1 = (Spinner) findViewById(R.id.spec_1);
+        s2 = (Spinner) findViewById(R.id.spec_2);
+        s3 = (Spinner) findViewById(R.id.spec_3);
 
         list_rv = (RecyclerView) findViewById(R.id.list_2);
         data = new ArrayList<>();
         adapter = new BlockAdapter(data, this);
+        adapter.setActivity(this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         list_rv.setLayoutManager(manager);
         list_rv.setAdapter(adapter);
@@ -159,7 +164,7 @@ public class RuleFarmActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String key3 = list3.get(position);
-                KeyValueTable.updateObject("s1_v", key3);
+                KeyValueTable.updateObject("s3_v", key3);
                 String key2 = KeyValueTable.getObject("s2_v", String.class);
                 String key = KeyValueTable.getObject("s1_v", String.class);
                 String data_s = KeyValueTable.getObject("rule_list", String.class);
@@ -215,6 +220,7 @@ public class RuleFarmActivity extends BaseActivity {
         }).start();
     }
     private void flateData(String key, String key2, String key3, List<BlockRuleShowList> list) {
+        //Log.i("mms_test", key + key2 + key3);
         if (key.equals("所有") && key2.equals("所有") && key3.equals("所有") && list != null) {
             data.addAll(list);
         } else if (key.equals("所有") && !key2.equals("所有") && !key3.equals("所有")) {
@@ -225,8 +231,10 @@ public class RuleFarmActivity extends BaseActivity {
             }
         } else if (key.equals("所有") && key2.equals("所有") && !key3.equals("所有")) {
             for (BlockRuleShowList item : list) {
-                if (converType(item.getType()).equals(key3))
+                //Log.i("mms_test2", item.getType() + "");
+                if (converType(item.getType()).equals(key3)) {
                     data.add(item);
+                }
             }
         } else if (key.equals("所有") && !key2.equals("所有") && key3.equals("所有")) {
             for (BlockRuleShowList item : list) {
@@ -257,5 +265,81 @@ public class RuleFarmActivity extends BaseActivity {
                     data.add(item);
             }
         }
+    }
+
+    public void showD(final String batchNo) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final TableParam param = new TableParam();
+                param.add("batchNo", batchNo);
+                String resp = Global.httpPost3("/block/getNumCan.do", param.toString());
+                //Log.i("mms_4", resp + "2" + batchNo);
+                JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                final int canNum = obj.getInteger("data");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Log.i("mms_n", resp + "");
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(RuleFarmActivity.this);
+                        dialog.setMessage("可购买数量" + canNum + "个");
+                        dialog.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (canNum > 0) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            String resp = Global.httpPost3("/block/order/getShareOrder.do", param.toString());
+                                            //Log.i("mms_r", resp + "1");
+                                            JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                                            Intent intent = new Intent(RuleFarmActivity.this, OrderCreate.class);
+                                            intent.putExtra("data", obj.getString("data"));
+                                            startActivity(intent);
+                                        }
+                                    }).start();
+                                    /*
+                                    JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                                    ShareOrderDto sod = obj.getObject("data", ShareOrderDto.class);
+                                    */
+                                    /*
+                                    Intent intent = new Intent(RuleFarmActivity.this, OrderCreate.class);
+                                    intent.putExtra("batchNo", batchNo);
+                                    startActivity(intent);*/
+                                } else {
+
+                                }
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        final String key = (String) s1.getSelectedItem();
+        final String key2 = (String) s2.getSelectedItem();
+        final String key3 = (String) s3.getSelectedItem();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TableParam param = new TableParam();
+                param.add("id", id);
+                JSONObject jsonObject = Global.httpPost2("/block/loadRuleList.do", param.toString());
+                String respStr = jsonObject.getString("respStr");
+                JSONObject resp = (JSONObject) JSON.parse(respStr);
+                KeyValueTable.addObject("rule_list", resp.getString("data"));
+                List<BlockRuleShowList> list_s = JSONArray.parseArray(resp.getString("data"), BlockRuleShowList.class);
+                if (list_s.size() == 0) {
+                    Toast.makeText(RuleFarmActivity.this, "暂无数据", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                flateData(key, key2, key3, list_s);
+            }
+        }).start();
     }
 }

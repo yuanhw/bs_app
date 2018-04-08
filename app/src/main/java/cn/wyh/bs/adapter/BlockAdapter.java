@@ -1,6 +1,8 @@
 package cn.wyh.bs.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,12 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.SimpleFormatter;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.home.lease.OrderCreate;
+import cn.wyh.bs.activity.home.lease.RuleFarmActivity;
 import cn.wyh.bs.common.Const;
+import cn.wyh.bs.common.Global;
+import cn.wyh.bs.common.TableParam;
 import cn.wyh.bs.entity.BlockRuleShowList;
 
 /**
@@ -24,6 +32,7 @@ import cn.wyh.bs.entity.BlockRuleShowList;
 public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> {
     private List<BlockRuleShowList> data;
     private Context context;
+    private RuleFarmActivity activity;
 
     public BlockAdapter(List<BlockRuleShowList> data, Context context) {
         this.data = data;
@@ -38,7 +47,9 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 TextView batch = (TextView) v.findViewById(R.id.rule_batch);
-                Log.i("mms_rl", batch.getText().toString());
+                //Log.i("mms_rl", batch.getText().toString());
+                final String batchNo = batch.getText().toString();
+                activity.showD(batchNo);
             }
         });
         return holder;
@@ -50,7 +61,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
         holder.tv1.setText(item.getBatchNo());
         holder.tv2.setText(item.getId() +"");
         holder.tv3.setText(item.getSpec() + "");
-        holder.tv4.setText(item.getMaxLease() + "年");
+        holder.tv4.setText(item.getMaxLease() + item.getLeaseUnit());
         holder.tv5.setText(item.getLeaseUnit());
         holder.tv6.setText(item.getNumber() + "个");
         holder.tv7.setText(item.getHasLease() + "");
@@ -101,5 +112,13 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public RuleFarmActivity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(RuleFarmActivity activity) {
+        this.activity = activity;
     }
 }

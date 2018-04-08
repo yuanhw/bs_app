@@ -32,6 +32,7 @@ import cn.wyh.bs.common.Const;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.LocationUtils;
 import cn.wyh.bs.storage.KeyValueTable;
+import okhttp3.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class MainActivity extends FragmentActivity{
         location();
         initToolbarContext(); //实例化标题栏
         initTab(); //实例化底部菜单栏
+        //init();
     }
 
     @Override
@@ -242,4 +244,5 @@ public class MainActivity extends FragmentActivity{
             }
         }).start();
     }
+
 }

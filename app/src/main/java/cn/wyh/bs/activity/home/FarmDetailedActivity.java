@@ -64,7 +64,7 @@ public class FarmDetailedActivity extends BaseActivity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("mms_zz", "id=" + id);
+                //Log.i("mms_zz", "id=" + id);
                 Intent intent2 = new Intent(FarmDetailedActivity.this, RuleFarmActivity.class);
                 intent2.putExtra("id", id);
                 startActivity(intent2);
