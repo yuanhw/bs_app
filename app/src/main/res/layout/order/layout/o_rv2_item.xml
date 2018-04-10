@@ -112,10 +112,10 @@
         android:layout_height="35dp">
         <TextView
             android:layout_marginLeft="15dp"
-            android:id="@+id/o_all_del"
+            android:id="@+id/o_all_tk"
             android:layout_width="wrap_content"
             android:textSize="12sp"
-            android:text="删除"
+            android:text="申请退款"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout

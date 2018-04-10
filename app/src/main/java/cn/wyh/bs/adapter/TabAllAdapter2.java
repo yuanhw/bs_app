@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.wyh.bs.R;
-import cn.wyh.bs.activity.home.FarmDetailedActivity;
-import cn.wyh.bs.bean.LateLySimplyFarm;
+import cn.wyh.bs.activity.home.lease.OrderPayStatus;
+import cn.wyh.bs.activity.order.RefundActivity;
+import cn.wyh.bs.bean.RefundListDto;
 import cn.wyh.bs.bean.TabAllOrder;
 import cn.wyh.bs.common.Global;
 
@@ -27,18 +29,18 @@ import cn.wyh.bs.common.Global;
  * Created by WYH on 2017/12/24.
  */
 
-public class TabAllAdapter1 extends RecyclerView.Adapter<TabAllAdapter1.ViewHolder> {
+public class TabAllAdapter2 extends RecyclerView.Adapter<TabAllAdapter2.ViewHolder> {
     private Activity context;
     private List<TabAllOrder> data;
 
-    public TabAllAdapter1(Activity context, List<TabAllOrder> data) {
+    public TabAllAdapter2(Activity context, List<TabAllOrder> data) {
         this.context = context;
         this.data = data;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.o_rv1_item, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.o_rv2_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,33 +52,42 @@ public class TabAllAdapter1 extends RecyclerView.Adapter<TabAllAdapter1.ViewHold
             @Override
             public void onClick(View v) {
                 final String orderId = holder.tv8.getText().toString().split("：")[1];
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String resp = Global.httpPost3("/block/order/delOrder.do", "orderId=" + orderId);
-                        JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
-                        final int data = obj.getInteger("data");
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String str = "删除失败";
-                                if (data == 1) {
-                                    str = "删除成功";
-                                    List<TabAllOrder> lists = TabAllAdapter1.this.data;
-                                    Iterator<TabAllOrder> iter = lists.iterator();
-                                    while (iter.hasNext()) {
-                                        TabAllOrder refund = iter.next();
-                                        if (refund.getOrderId().equals(orderId)) {
-                                            iter.remove();
+                String price = (String) holder.tv4.getText();
+                String status = holder.tv2.getText().toString();
+                if (status.equals("退款中")) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String resp = Global.httpPost3("/block/order/cancelRefund.do", "orderId=" + orderId);
+                            JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                            final int data = obj.getInteger("data");
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String str = "取消退款失败";
+                                    if (data == 1) {
+                                        str = "取消退款成功";
+                                        List<TabAllOrder> lists = TabAllAdapter2.this.data;
+                                        Iterator<TabAllOrder> iter = lists.iterator();
+                                        while (iter.hasNext()) {
+                                            TabAllOrder refund = iter.next();
+                                            if (refund.getOrderId().equals(orderId)) {
+                                                iter.remove();
+                                            }
                                         }
+                                        TabAllAdapter2.this.notifyDataSetChanged();
                                     }
-                                    TabAllAdapter1.this.notifyDataSetChanged();
+                                    Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
                                 }
-                                Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }).start();
+                            });
+                        }
+                    }).start();
+                } else {
+                    Intent intent = new Intent(context, RefundActivity.class);
+                    intent.putExtra("orderId", orderId);
+                    intent.putExtra("price", price);
+                    context.startActivity(intent);
+                }
             }
         });
         return holder;
@@ -98,7 +109,12 @@ public class TabAllAdapter1 extends RecyclerView.Adapter<TabAllAdapter1.ViewHold
         holder.tv5.setText(order.getNum());
         holder.tv6.setText(order.getTime());
         holder.tv7.setText(order.getCreateTime());
+
         holder.tv8.setText("订单号：" + order.getOrderId());
+
+        if (order.getStatus().equals("退款中")) {
+            holder.tv10.setText("取消申请");
+        }
     }
 
     @Override
@@ -123,12 +139,10 @@ public class TabAllAdapter1 extends RecyclerView.Adapter<TabAllAdapter1.ViewHold
             tv5 = (TextView) itemView.findViewById(R.id.o_all_num);
             tv6 = (TextView) itemView.findViewById(R.id.o_all_time);
             tv7 = (TextView) itemView.findViewById(R.id.o_all_create_t);
-
             tv8 = (TextView) itemView.findViewById(R.id.o_id);
-            tv10 = (TextView) itemView.findViewById(R.id.o_all_del);
+            tv10 = (TextView) itemView.findViewById(R.id.o_all_tk);
         }
     }
-
     public List<TabAllOrder> getData() {
         return data;
     }

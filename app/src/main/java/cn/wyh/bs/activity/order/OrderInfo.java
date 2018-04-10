@@ -16,6 +16,10 @@ import java.util.List;
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.ActivityManager;
 import cn.wyh.bs.activity.order.fragment.TabOrderFragment1;
+import cn.wyh.bs.activity.order.fragment.TabOrderFragment2;
+import cn.wyh.bs.activity.order.fragment.TabOrderFragment3;
+import cn.wyh.bs.activity.order.fragment.TabOrderFragment4;
+import cn.wyh.bs.activity.order.fragment.TabOrderFragment5;
 import cn.wyh.bs.bean.Tab;
 
 /**
@@ -51,12 +55,14 @@ public class OrderInfo extends FragmentActivity {
      */
     private void initTab() {
         Tab tab_home = new Tab("all", "全部", 0, TabOrderFragment1.class);
-        Tab tab_info = new Tab("dhx", "待核销", 0, TabOrderFragment1.class);
-        Tab tab_share = new Tab("dpj", "待评价", 0, TabOrderFragment1.class);
-        Tab tab_person = new Tab("tk", "退款", 0, TabOrderFragment1.class);
+        Tab tab_zc= new Tab("zc", "正常", 0, TabOrderFragment2.class);
+        Tab tab_info = new Tab("dhx", "待核销", 0, TabOrderFragment3.class);
+        Tab tab_share = new Tab("dpj", "待评价", 0, TabOrderFragment4.class);
+        Tab tab_person = new Tab("tk", "退款", 0, TabOrderFragment5.class);
 
         List<Tab> list = new ArrayList<>();
         list.add(tab_home);
+        list.add(tab_zc);
         list.add(tab_info);
         list.add(tab_share);
         list.add(tab_person);
@@ -83,6 +89,8 @@ public class OrderInfo extends FragmentActivity {
             public void onTabChanged(String tabId) {
                 switch (tabId) {
                     case "all":
+                        break;
+                    case "zc":
                         break;
                     case "dhx":
                         break;

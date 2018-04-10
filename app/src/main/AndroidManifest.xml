@@ -60,6 +60,7 @@
         <activity android:name=".activity.home.lease.OrderCreate"/>
         <activity android:name=".activity.home.lease.OrderPayStatus"/>
         <activity android:name=".activity.order.OrderInfo"/>
+        <activity android:name=".activity.order.RefundActivity"/>
     </application>
 
 </manifest>

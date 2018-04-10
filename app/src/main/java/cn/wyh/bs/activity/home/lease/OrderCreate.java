@@ -139,6 +139,12 @@ public class OrderCreate extends FragmentActivity implements PayPwdView.InputCal
                         String str = "支付成功，地块订单已生效";
                         if (code == 0) {
                             str = "订单提交失败";
+                        } else {
+                            param.clear();
+                            param.add("phone", user.getUserPhone());
+                            String respStr2 = Global.httpPost3("/user/findByPhone.do", param.toString());
+                            User user = JSONObject.parseObject(respStr2, User.class);
+                            KeyValueTable.updateObject("user", user);
                         }
                         fragment.dismiss();
                         intent.putExtra("str", str);

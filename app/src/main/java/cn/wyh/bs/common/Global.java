@@ -7,6 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.File;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -236,4 +238,10 @@ public class Global {
         }
         return hexStr.toString().toUpperCase();
     }
+
+    public static String convertDate(Date date, String str) {
+        SimpleDateFormat format = new SimpleDateFormat(str);
+        return format.format(date);
+    }
+
 }
