@@ -1,6 +1,7 @@
 package cn.wyh.bs.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.home.lease.OrderCreate;
+import cn.wyh.bs.activity.order.OrderComment;
 import cn.wyh.bs.bean.TabAllOrder;
 import cn.wyh.bs.common.Global;
 
@@ -32,7 +35,7 @@ public class TabAllAdapter4 extends RecyclerView.Adapter<TabAllAdapter4.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.o_rv4_item, parent, false);
-        ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +45,10 @@ public class TabAllAdapter4 extends RecyclerView.Adapter<TabAllAdapter4.ViewHold
         holder.tv10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, OrderComment.class);
+                String orderId = holder.tv8.getText().toString().split("：")[1];
+                intent.putExtra("orderId", orderId);
+                context.startActivity(intent);
             }
         });
         return holder;

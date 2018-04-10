@@ -28,4 +28,8 @@ public class TableParam {
         }
         return sb.toString();
     }
+
+    public String get(String key) {
+        return this.map.get(key);
+    }
 }
