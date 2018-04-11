@@ -298,14 +298,6 @@ public class RuleFarmActivity extends BaseActivity {
                                             startActivity(intent);
                                         }
                                     }).start();
-                                    /*
-                                    JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
-                                    ShareOrderDto sod = obj.getObject("data", ShareOrderDto.class);
-                                    */
-                                    /*
-                                    Intent intent = new Intent(RuleFarmActivity.this, OrderCreate.class);
-                                    intent.putExtra("batchNo", batchNo);
-                                    startActivity(intent);*/
                                 } else {
 
                                 }

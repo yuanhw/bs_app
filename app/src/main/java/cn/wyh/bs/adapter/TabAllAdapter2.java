@@ -3,6 +3,7 @@ package cn.wyh.bs.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.home.lease.OrderPayStatus;
+import cn.wyh.bs.activity.home.lease.RuleFarmActivity;
 import cn.wyh.bs.activity.order.RefundActivity;
 import cn.wyh.bs.bean.RefundListDto;
 import cn.wyh.bs.bean.TabAllOrder;
@@ -52,7 +54,7 @@ public class TabAllAdapter2 extends RecyclerView.Adapter<TabAllAdapter2.ViewHold
             @Override
             public void onClick(View v) {
                 final String orderId = holder.tv8.getText().toString().split("：")[1];
-                String price = (String) holder.tv4.getText();
+                final String price = (String) holder.tv4.getText();
                 String status = holder.tv2.getText().toString();
                 if (status.equals("退款中")) {
                     new Thread(new Runnable() {
@@ -83,10 +85,30 @@ public class TabAllAdapter2 extends RecyclerView.Adapter<TabAllAdapter2.ViewHold
                         }
                     }).start();
                 } else {
-                    Intent intent = new Intent(context, RefundActivity.class);
-                    intent.putExtra("orderId", orderId);
-                    intent.putExtra("price", price);
-                    context.startActivity(intent);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String resp = Global.httpPost3("/block/order/isCanRefund.do", "orderId=" + orderId);
+                            JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                            final int data = obj.getInteger("data");
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String str = "您已用完了审请次数，最多两次";
+                                    if (data == 1) {
+                                        Intent intent = new Intent(context, RefundActivity.class);
+                                        intent.putExtra("orderId", orderId);
+                                        intent.putExtra("price", price);
+                                        context.startActivity(intent);
+                                    } else {
+                                        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                                        dialog.setMessage(str);
+                                        dialog.show();
+                                    }
+                                }
+                            });
+                        }
+                    }).start();
                 }
             }
         });
