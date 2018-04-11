@@ -67,7 +67,7 @@ public class TabPersonFragment extends Fragment {
     private void initData() {
         User user = KeyValueTable.getObject("user", User.class);
         this.name.setText(user.getUserName());
-        this.account.setText(user.getAccount() + "");
+        this.account.setText("￥" + user.getAccount());
         String[] imgName = user.getTouImgPath().split("/");
         Uri uri= ImgProcess.getImgPath(imgName[imgName.length - 1]);
         //Log.i("mms_initData", uri.toString());

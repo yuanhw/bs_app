@@ -61,7 +61,7 @@ public class TabHomeTable {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
 
-        String[] titles = new String[] { "订单信息", "耕种记录", "租赁地块", "我的地块"};
+        String[] titles = new String[] { "订单信息", "耕种信息", "租赁地块", "我的地块"};
         Integer[] images = { R.drawable.order, R.drawable.plant, R.drawable.farm, R.drawable.dk};
 
         for (int i = 0; i < images.length; i++) {

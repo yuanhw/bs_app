@@ -30,7 +30,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     }
 
     private void init() {
-        Item item1 = new Item(1, R.mipmap.person_pos, "地址管理");
+        Item item1 = new Item(1, R.mipmap.jiaoyi3, "交易记录");
         items.add(item1);
         Item item2 = new Item(2, R.mipmap.operate, "操作说明");
         items.add(item2);
