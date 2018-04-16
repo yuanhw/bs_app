@@ -3,6 +3,7 @@ package cn.wyh.bs.activity.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -86,7 +87,10 @@ public class FarmDetailedActivity extends BaseActivity {
         video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String videoPath = Global.BASE_URL + fm.getFmVideo();
+                Intent intent1 = new Intent(FarmDetailedActivity.this, VideoActivity.class);
+                intent1.putExtra("videoPath", videoPath);
+                startActivity(intent1);
             }
         });
 

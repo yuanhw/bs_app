@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.FormBody;
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -29,11 +28,10 @@ import okhttp3.Response;
 
 public class Global {
 
-    public static final String BASE_URL= "http://192.168.43.43:8080/demo"; //本地电脑
-    //public static final String BASE_URL= "http://106.14.5.10:8080/demo"; //云服务器
+    public static final String BASE_URL= "http://10.9.154.55:8080/demo"; //本地电脑
 
     public static OkHttpClient.Builder builder = new OkHttpClient.Builder()
-            .connectTimeout(3, TimeUnit.SECONDS) //连接超时时间
+            .connectTimeout(10, TimeUnit.SECONDS) //连接超时时间
             .writeTimeout(20, TimeUnit.SECONDS) // 获取数据超时时间
             .readTimeout(20, TimeUnit.SECONDS); // 传递数据超时时间
 
@@ -243,5 +241,4 @@ public class Global {
         SimpleDateFormat format = new SimpleDateFormat(str);
         return format.format(date);
     }
-
 }

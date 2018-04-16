@@ -24,6 +24,7 @@ android {
                     [
                             'src/main/res/layout/home/layout/lease',
                             'src/main/res/layout/person',
+                            'src/main/res/layout/plant',
                             'src/main/res/layout/order',
                             'src/main/res/layout/main',
                             'src/main/res/layout/home',
@@ -51,5 +52,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.alibaba:fastjson:1.2.24'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.9'
     testCompile 'junit:junit:4.12'
 }

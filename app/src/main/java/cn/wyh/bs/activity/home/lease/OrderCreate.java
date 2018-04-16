@@ -8,10 +8,16 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.ActivityManager;
@@ -53,12 +59,13 @@ public class OrderCreate extends FragmentActivity implements PayPwdView.InputCal
         TextView blockId = (TextView) findViewById(R.id.o_block_id);
         TextView title = (TextView) findViewById(R.id.o_title);
         TextView address = (TextView) findViewById(R.id.o_address);
-        TextView blockType = (TextView) findViewById(R.id.o_block_type);
         TextView leaseUnit = (TextView) findViewById(R.id.o_lease_unit);
         TextView spec = (TextView) findViewById(R.id.o_spec);
+        View proxyView = findViewById(R.id.proxy_view);
+        final TextView proxy = (TextView) findViewById(R.id.proxy);
         final AmountView num = (AmountView) findViewById(R.id.o_num);
         final TextView unitPrice = (TextView) findViewById(R.id.o_unit_price);
-        AmountView time = (AmountView) findViewById(R.id.o_time);
+        final AmountView time = (AmountView) findViewById(R.id.o_time);
         final TextView amt = (TextView) findViewById(R.id.o_amount);
         final TextView amt2 = (TextView) findViewById(R.id.o_amount_2);
         TextView submit = (TextView) findViewById(R.id.o_submit);
@@ -66,7 +73,6 @@ public class OrderCreate extends FragmentActivity implements PayPwdView.InputCal
         blockId.setText(obj.getOrderId());
         title.setText(obj.getFarmName());
         address.setText(obj.getFarmAddress());
-        blockType.setText(obj.getBlockTypeValue());
         leaseUnit.setText(obj.getUnitLease());
         spec.setText(obj.getSpec());
         unitPrice.setText(obj.getUnitPrice() + "元");
@@ -76,7 +82,13 @@ public class OrderCreate extends FragmentActivity implements PayPwdView.InputCal
             public void onAmountChange(View view, int amount) {
                 String price_0 = unitPrice.getText().toString();
                 String price_1 = price_0.substring(0, price_0.length() - 1);
-                double amts = Double.parseDouble(price_1) * amount * num.getAmount();
+
+                double amts = Double.parseDouble(price_1) * amount * time.getAmount();
+                if (obj.getBlockType() == 1) {
+                    String proxy_0 = proxy.getText().toString();
+                    String proxy_1 = proxy_0.substring(0, proxy_0.length() - 1);
+                    amts = amts + Double.parseDouble(proxy_1) * amount * time.getAmount();
+                }
                 obj.setAmount(amts);
                 obj.setNum(amount);
                 amt.setText(amts + "元");
@@ -91,6 +103,11 @@ public class OrderCreate extends FragmentActivity implements PayPwdView.InputCal
                 String price_0 = unitPrice.getText().toString();
                 String price_1 = price_0.substring(0, price_0.length() - 1);
                 double amts = Double.parseDouble(price_1) * amount * num.getAmount();
+                if (obj.getBlockType() == 1) {
+                    String proxy_0 = proxy.getText().toString();
+                    String proxy_1 = proxy_0.substring(0, proxy_0.length() - 1);
+                    amts = amts + Double.parseDouble(proxy_1) * amount * num.getAmount();
+                }
                 obj.setAmount(amts);
                 obj.setLeaseTime(amount);
                 amt.setText(amts + "元");
@@ -112,6 +129,46 @@ public class OrderCreate extends FragmentActivity implements PayPwdView.InputCal
                 fragment.show(OrderCreate.this.getSupportFragmentManager(), "Pay");
             }
         });
+
+        Spinner spinner = (Spinner) findViewById(R.id.o_block_type2);
+        final List<String> sData = new ArrayList<String>();
+        sData.add("自种");
+        if (obj.getBlockType() == 1) {
+            sData.add("代种");
+            proxyView.setVisibility(View.VISIBLE);
+        }
+        ArrayAdapter<String> adapter_s = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sData);
+        adapter_s.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter_s);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                obj.setBlockType(position);
+                obj.setBlockTypeValue(sData.get(position));
+
+                String price_0 = unitPrice.getText().toString();
+                String price_1 = price_0.substring(0, price_0.length() - 1);
+                double amts = Double.parseDouble(price_1) * num.getAmount() * time.getAmount();
+                if (obj.getBlockType() == 1) {
+                    String proxy_0 = proxy.getText().toString();
+                    String proxy_1 = proxy_0.substring(0, proxy_0.length() - 1);
+                    amts = amts + Double.parseDouble(proxy_1) * num.getAmount() * time.getAmount();
+                }
+                obj.setAmount(amts);
+                amt.setText(amts + "元");
+                amt2.setText(amts + "元");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        obj.setBlockType(0);
+        obj.setBlockTypeValue("自种");
+        obj.setNum(1);
+        obj.setLeaseTime(1);
     }
 
     @Override

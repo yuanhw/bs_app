@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@mipmap/plant_cope"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="295dp">
+    <ImageView
+        android:tag="4"
+        android:id="@+id/plant_back"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:src="@mipmap/plant_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <LinearLayout
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:tag="5"
+            android:id="@+id/record"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="30dp"
+            android:text="记录"
+            android:textSize="12sp"
+            android:layout_width="60dp"
+            android:layout_height="35dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/plant_g_s"
+        android:visibility="visible"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:paddingLeft="43dp"
+        android:background="@mipmap/plant_status1">
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="菜名："
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/name"
+                android:text="花菜"
+                android:textSize="12sp"
+                android:textColor="@color/yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="生长状态："
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/status"
+                android:text="良好"
+                android:textSize="12sp"
+                android:textColor="@color/yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="预计成熟："
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/day"
+                android:textSize="12sp"
+                android:textColor="@color/yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="最近操作："
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/last_operate"
+                android:text="播种"
+                android:textSize="12sp"
+                android:textColor="@color/yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/block_1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:background="@mipmap/plant_block"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/block_img_1"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:background="@mipmap/plant_block"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/block_img_2"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:background="@mipmap/plant_block"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/block_img_3"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:background="@mipmap/plant_block"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/block_img_4"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:background="@mipmap/plant_block"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/block_img_5"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:background="@mipmap/plant_block"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/block_img_6"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:tag="1"
+            android:id="@+id/bt1"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/plant_bt1"
+            android:layout_width="55dp"
+            android:layout_height="55dp" />
+        <ImageView
+            android:tag="2"
+            android:layout_marginLeft="60dp"
+            android:id="@+id/bt2"
+            android:src="@mipmap/plant_bt2"
+            android:layout_width="55dp"
+            android:layout_height="55dp" />
+        <ImageView
+            android:tag="3"
+            android:id="@+id/bt3"
+            android:layout_marginLeft="60dp"
+            android:src="@mipmap/plant_bt3"
+            android:layout_width="55dp"
+            android:layout_height="55dp" />
+    </LinearLayout>
+</LinearLayout>

@@ -242,9 +242,9 @@
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/shape2"
-                    android:text="农场短视频：" />
+                    android:text="农场结束：" />
                 <TextView
-                    android:text="观看视频"
+                    android:text="观看短视频"
                     android:layout_marginLeft="15dp"
                     android:background="@color/colorAccent"
                     android:id="@+id/f_detail_video"
