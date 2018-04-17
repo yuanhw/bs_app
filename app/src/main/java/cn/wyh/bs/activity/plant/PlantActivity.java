@@ -28,6 +28,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
     private TextView[] status = new TextView[4];
     private ImageView[] imgList = new ImageView[6];
     private View show;
+    private int plantId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        plantId = current.getPlantId();
                         status[0].setText(current.getName());
                         status[1].setText(current.getStatus());
                         if (current.getDay() != null) {
@@ -128,6 +130,9 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
                 finish();
                 break;
             case 5:
+                Intent intent2 = new Intent(PlantActivity.this, RecordActivity.class);
+                intent2.putExtra("plantId", plantId + "");
+                startActivity(intent2);
                 break;
         }
     }
@@ -135,7 +140,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 200 && resultCode == RESULT_OK) {
-            Log.i("mms_up", "更新");
+            loadData();
         }
     }
 }

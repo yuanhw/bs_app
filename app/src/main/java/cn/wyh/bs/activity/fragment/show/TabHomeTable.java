@@ -22,6 +22,7 @@ import cn.wyh.bs.R;
 import cn.wyh.bs.activity.home.lease.SearchFarmActivity;
 import cn.wyh.bs.activity.order.OrderInfo;
 import cn.wyh.bs.activity.plant.BlockDetailActivity;
+import cn.wyh.bs.activity.plant.OperateStatus;
 import cn.wyh.bs.activity.plant.PlantActivity;
 
 public class TabHomeTable {
@@ -48,7 +49,10 @@ public class TabHomeTable {
                         Intent intent0 = new Intent(context, OrderInfo.class);
                         context.startActivity(intent0);
                         break;
-                    case 1: break;
+                    case 1:
+                        Intent intent1 = new Intent(context, OperateStatus.class);
+                        context.startActivity(intent1);
+                        break;
                     case 2:
                         Intent intent2 = new Intent(context, SearchFarmActivity.class);
                         context.startActivity(intent2);
@@ -66,7 +70,7 @@ public class TabHomeTable {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
 
-        String[] titles = new String[] { "订单信息", "种植信息", "租赁地块", "我的地块"};
+        String[] titles = new String[] { "订单信息", "指令信息", "租赁地块", "我的地块"};
         Integer[] images = { R.drawable.order, R.drawable.plant, R.drawable.farm, R.drawable.dk};
 
         for (int i = 0; i < images.length; i++) {

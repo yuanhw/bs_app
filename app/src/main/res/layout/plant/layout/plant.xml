@@ -32,7 +32,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/plant_g_s"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_width="180dp"

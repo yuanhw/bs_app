@@ -69,6 +69,9 @@
         <activity android:name=".activity.home.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.plant.OperateStatus"/>
+        <activity android:name=".activity.plant.PlantOperateStatus"/>
+        <activity android:name=".activity.plant.RecordActivity"/>
     </application>
 
 </manifest>
