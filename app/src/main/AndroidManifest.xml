@@ -72,6 +72,8 @@
         <activity android:name=".activity.plant.OperateStatus"/>
         <activity android:name=".activity.plant.PlantOperateStatus"/>
         <activity android:name=".activity.plant.RecordActivity"/>
+        <activity android:name=".activity.plant.Video2Activity"/>
+        <activity android:name=".activity.plant.CurrentImgActivity"/>
     </application>
 
 </manifest>

@@ -1,7 +1,9 @@
 package cn.wyh.bs.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.plant.Video2Activity;
 import cn.wyh.bs.bean.BlockPlantDto;
 import cn.wyh.bs.bean.TillageDto;
 import cn.wyh.bs.common.Const;
@@ -37,21 +40,34 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
+        holder.bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("mms_video", Global.BASE_URL + holder.tv4.getText().toString());
+                Intent intent = new Intent(context, Video2Activity.class);
+                intent.putExtra("videoPath", Global.BASE_URL + holder.tv4.getText().toString());
+                context.startActivity(intent);
+            }
+        });
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         TillageDto dto = data.get(position);
-        holder.tv1.setText(Global.convertDate(dto.getCreateTime(), Const.DATE_TIME_FORMAT));
+        holder.tv1.setText("耕种时间 " + Global.convertDate(dto.getCreateTime(), Const.DATE_TIME_FORMAT));
         holder.tv2.setText(dto.getStatus());
         holder.tv3.setText(dto.getOperate());
         holder.tv4.setText(dto.getVideo());
 
         List<String> list = dto.getImgList();
         int i = 0;
-        for (String src : list) {
-            Picasso.with(context).load(Global.BASE_URL + src).into(holder.imgs[i++]);
+        if (list != null) {
+            for (String src : list) {
+                holder.imgs[i].setVisibility(View.VISIBLE);
+                Picasso.with(context).load(Global.BASE_URL + src).into(holder.imgs[i]);
+                i++;
+            }
         }
     }
 

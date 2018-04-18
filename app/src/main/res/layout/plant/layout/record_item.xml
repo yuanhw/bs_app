@@ -7,19 +7,24 @@
         android:paddingLeft="15dp"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:layout_height="35dp">
+        android:layout_height="40dp">
+        <ImageView
+            android:src="@mipmap/time2"
+            android:layout_width="27dp"
+            android:layout_height="27dp" />
         <TextView
+            android:layout_marginLeft="5dp"
             android:id="@+id/time"
             android:layout_width="wrap_content"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:text="2014-15-23"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/split"
+        android:layout_height="wrap_content"
+        android:background="@color/account_line"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp">
@@ -27,7 +32,7 @@
         <LinearLayout
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,9 +42,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="生长状况："
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
                 <TextView
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:id="@+id/status"
                     android:textColor="@color/red"
                     android:layout_width="wrap_content"
@@ -54,14 +59,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="最近操作："
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:textColor="@color/red"
                     android:id="@+id/last_operate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="播种"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -71,37 +76,44 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地块面貌："
-                    android:textSize="12sp" />
+                    android:text="地块面貌"
+                    android:textSize="14sp" />
             </LinearLayout>
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:orientation="vertical"
+                android:paddingRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/img1"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/img2"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/img3"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:gravity="center_vertical"
+                android:layout_height="40dp">
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="耕种过程："
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/video_src"
@@ -122,7 +134,7 @@
         android:layout_height="35dp">
     </LinearLayout>
     <LinearLayout
-        android:background="@color/split"
+        android:background="@color/account_line"
         android:layout_width="match_parent"
-        android:layout_height="5dp"/>
+        android:layout_height="15dp"/>
 </LinearLayout>

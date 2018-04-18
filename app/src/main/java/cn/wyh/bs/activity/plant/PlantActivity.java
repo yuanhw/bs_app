@@ -29,6 +29,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
     private ImageView[] imgList = new ImageView[6];
     private View show;
     private int plantId;
+    private CurrentStatus current;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
             public void run() {
                 String resp = Global.httpPost3("/plant/app/currentPlantStatus.do", "blockId=" + blockId);
                 JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
-                final CurrentStatus current = obj.getObject("data", CurrentStatus.class);
+                current = obj.getObject("data", CurrentStatus.class);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -123,8 +124,24 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
                 }
                 break;
             case 2:
+                if (isHas == 0) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                    dialog.setMessage("您尚未种植~");
+                    dialog.show();
+                } else {
+                    Intent intent = new Intent(PlantActivity.this, CurrentImgActivity.class);
+                    intent.putExtra("plantId", plantId + "");
+                    startActivity(intent);
+                }
                 break;
             case 3:
+                if (current != null && current.getStatus().contains("成熟")) {
+
+                } else {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                    dialog.setMessage("该状态不能采摘~");
+                    dialog.show();
+                }
                 break;
             case 4:
                 finish();
