@@ -74,6 +74,8 @@
         <activity android:name=".activity.plant.RecordActivity"/>
         <activity android:name=".activity.plant.Video2Activity"/>
         <activity android:name=".activity.plant.CurrentImgActivity"/>
+        <activity android:name=".activity.person.AddressManager"/>
+        <activity android:name=".activity.person.AddAddress"/>
     </application>
 
 </manifest>

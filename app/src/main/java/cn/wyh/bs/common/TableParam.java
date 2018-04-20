@@ -1,5 +1,6 @@
 package cn.wyh.bs.common;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,5 +32,19 @@ public class TableParam {
 
     public String get(String key) {
         return this.map.get(key);
+    }
+
+    public String toString(Object obj) throws IllegalAccessException {
+        Class<? extends Object> classType = obj.getClass();
+        Field[] fields = classType.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            String key = field.getName();
+            Object value = field.get(obj);
+            if (value != null) {
+                map.put(key, String.valueOf(value));
+            }
+        }
+        return toString();
     }
 }

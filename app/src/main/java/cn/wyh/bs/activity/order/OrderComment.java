@@ -45,7 +45,7 @@ public class OrderComment extends BaseActivity {
         bar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Log.i("mms_bar", rating + "@" + fromUser);
+                //Log.i("mms_bar", rating + "@" + fromUser);
                 int ratings = (int) rating;
                 if (fromUser) {
                     param.add("rating", ratings + "");

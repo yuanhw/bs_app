@@ -1,6 +1,8 @@
 package cn.wyh.bs.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.person.AddressManager;
 import cn.wyh.bs.bean.Item;
 
 /**
@@ -21,16 +24,16 @@ import cn.wyh.bs.bean.Item;
  */
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
-    private Context context;
+    private Activity context;
     private List<Item> items = new ArrayList<>(5);
 
-    public ItemsAdapter(Context context) {
+    public ItemsAdapter(Activity context) {
         this.context = context;
         this.init();
     }
 
     private void init() {
-        Item item1 = new Item(1, R.mipmap.jiaoyi3, "交易记录");
+        Item item1 = new Item(1, R.mipmap.person_pos, "收货地址");
         items.add(item1);
         Item item2 = new Item(2, R.mipmap.operate, "操作说明");
         items.add(item2);
@@ -50,7 +53,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                 TextView id = (TextView) v.findViewById(R.id.person_item_id);
                 switch (id.getText().toString()) {
                     case "1" :
-                        Toast.makeText(context, "地址管理", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, AddressManager.class);
+                        context.startActivity(intent);
                         break;
                     case "2" :
                         Toast.makeText(context, "操作说明", Toast.LENGTH_SHORT).show();

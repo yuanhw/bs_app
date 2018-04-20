@@ -104,7 +104,7 @@ public class TabPersonFragment extends Fragment {
         rv.removeAllViewsInLayout();
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(manager);
-        ItemsAdapter adapter = new ItemsAdapter(this.getContext());
+        ItemsAdapter adapter = new ItemsAdapter(this.getActivity());
         rv.setAdapter(adapter);
 
         this.rt = (TextView) view.findViewById(R.id.person_return);
