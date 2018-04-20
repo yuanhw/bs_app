@@ -298,8 +298,6 @@ public class RuleFarmActivity extends BaseActivity {
                                             startActivity(intent);
                                         }
                                     }).start();
-                                } else {
-
                                 }
                             }
                         });

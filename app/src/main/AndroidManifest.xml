@@ -76,6 +76,7 @@
         <activity android:name=".activity.plant.CurrentImgActivity"/>
         <activity android:name=".activity.person.AddressManager"/>
         <activity android:name=".activity.person.AddAddress"/>
+        <activity android:name=".activity.plant.order.CaiOrderInfo"/>
     </application>
 
 </manifest>

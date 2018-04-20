@@ -1,4 +1,4 @@
-package cn.wyh.bs.activity.order;
+package cn.wyh.bs.activity.plant.order;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,21 +19,18 @@ import cn.wyh.bs.activity.order.fragment.TabOrderFragment1;
 import cn.wyh.bs.activity.order.fragment.TabOrderFragment2;
 import cn.wyh.bs.activity.order.fragment.TabOrderFragment3;
 import cn.wyh.bs.activity.order.fragment.TabOrderFragment4;
-import cn.wyh.bs.activity.order.fragment.TabOrderFragment5;
 import cn.wyh.bs.bean.Tab;
 
 /**
- * Created by WYH on 2018/4/8.
+ * Created by WYH on 2018/4/20.
  */
 
-public class OrderInfo extends FragmentActivity {
-    //private FragmentTabHost mTabHost; //顶部tab控件
-
+public class CaiOrderInfo extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityManager.addActivity(this);
-        setContentView(R.layout.order_info);
+        setContentView(R.layout.cai_order);
         ImageView back = (ImageView) findViewById(R.id.o_info_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,22 +47,17 @@ public class OrderInfo extends FragmentActivity {
         ActivityManager.removeActivity(this);
     }
 
-    /**
-     * 顶部tab
-     */
     private void initTab() {
-        Tab tab_home = new Tab("all", "已完成", 0, TabOrderFragment1.class);
-        Tab tab_zc= new Tab("zc", "正常", 0, TabOrderFragment2.class);
-        Tab tab_info = new Tab("dhx", "待核销", 0, TabOrderFragment3.class);
-        Tab tab_share = new Tab("dpj", "待评价", 0, TabOrderFragment4.class);
-        Tab tab_person = new Tab("tk", "退款", 0, TabOrderFragment5.class);
+        Tab a = new Tab("a", "已完成", 0, TabOrderFragment1.class);
+        Tab b = new Tab("b", "待受理", 0, TabOrderFragment2.class);
+        Tab c = new Tab("c", "已受理", 0, TabOrderFragment3.class);
+        Tab d = new Tab("d", "已发货", 0, TabOrderFragment4.class);
 
         List<Tab> list = new ArrayList<>();
-        list.add(tab_home);
-        list.add(tab_zc);
-        list.add(tab_info);
-        list.add(tab_share);
-        list.add(tab_person);
+        list.add(a);
+        list.add(b);
+        list.add(c);
+        list.add(d);
 
         FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 
@@ -83,7 +75,7 @@ public class OrderInfo extends FragmentActivity {
         /**
          * 当前tab
          */
-        mTabHost.setCurrentTabByTag(tab_zc.getTag());
+        mTabHost.setCurrentTabByTag(b.getTag());
     }
 
     /**

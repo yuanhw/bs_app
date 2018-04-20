@@ -1,5 +1,6 @@
 package cn.wyh.bs.activity.plant;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +16,13 @@ import com.squareup.picasso.Picasso;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.BaseActivity;
+import cn.wyh.bs.activity.home.lease.OrderCreate;
+import cn.wyh.bs.activity.home.lease.RuleFarmActivity;
 import cn.wyh.bs.bean.CurrentStatus;
 import cn.wyh.bs.common.Global;
+import cn.wyh.bs.common.TableParam;
+import cn.wyh.bs.entity.User;
+import cn.wyh.bs.storage.KeyValueTable;
 
 /**
  * Created by WYH on 2018/4/12.
@@ -113,7 +119,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
         Integer code = Integer.parseInt(v.getTag().toString());
         switch (code) {
             case 1:
-                if (isHas == 0) {
+                if (isHas == 0 || "完成".equals(status[1].getText().toString())) {
                     Intent intent = new Intent(PlantActivity.this, SelectPlantActivity.class);
                     intent.putExtra("blockId", blockId);
                     startActivityForResult(intent, 200);
@@ -136,7 +142,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case 3:
                 if (current != null && current.getStatus().contains("成熟")) {
-
+                    sendOrder();
                 } else {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                     dialog.setMessage("该状态不能采摘~");
@@ -152,6 +158,64 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
                 startActivity(intent2);
                 break;
         }
+    }
+
+    private void sendOrder() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TableParam param = new TableParam();
+                param.add("plantId", plantId + "");
+                String resp = Global.httpPost3("/cai/app/isHasCaiOrder.do", param.toString());
+                JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                int i = obj.getInteger("data");
+                if (i > 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
+                            dialog.setMessage("您已发送过~");
+                            dialog.show();
+                        }
+                    });
+                } else if (i == 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
+                            dialog.setMessage("将发送采摘指令，采摘完成后发快递送达~");
+                            dialog.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            TableParam param = new TableParam();
+                                            param.add("plantId", plantId + "");
+                                            param.add("userId", KeyValueTable.getObject("user", User.class).getId() + "");
+                                            String resp = Global.httpPost3("/cai/app/createCaiOrder.do", param.toString());
+                                            JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                                            int i = obj.getInteger("data");
+                                            if (i == 1) {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
+                                                        dialog.setMessage("指令发送成功~");
+                                                        dialog.show();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }).start();
+                                }
+                            });
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     @Override

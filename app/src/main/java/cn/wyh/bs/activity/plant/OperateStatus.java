@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.BaseActivity;
+import cn.wyh.bs.activity.plant.order.CaiOrderInfo;
 
 /**
  * Created by WYH on 2018/4/16.
@@ -37,7 +38,8 @@ public class OperateStatus extends BaseActivity {
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(OperateStatus.this, CaiOrderInfo.class);
+                startActivity(intent);
             }
         });
     }
