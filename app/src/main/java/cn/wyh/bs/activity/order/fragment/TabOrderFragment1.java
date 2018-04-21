@@ -35,26 +35,16 @@ public class TabOrderFragment1 extends Fragment {
     private RecyclerView rv;
     private List<TabAllOrder> data = new ArrayList<>();
     private TabAllAdapter1 adapter;
-    private View show;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.o_all_f, container, false);
-        rv = (RecyclerView) view.findViewById(R.id.o_rv_1);
-        show = view.findViewById(R.id.showTip);
+        View view = inflater.inflate(R.layout.cai_has, container, false);
+        rv = (RecyclerView) view.findViewById(R.id.rv);
         adapter = new TabAllAdapter1(this.getActivity(), data);
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(manager);
         rv.setAdapter(adapter);
-        /*
-        rv.addOnScrollListener(new EndLessOnScrollListener(manager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-
-            }
-        });
-        */
         initRv();
         return view;
     }
