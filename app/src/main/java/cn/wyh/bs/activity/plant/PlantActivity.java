@@ -179,40 +179,60 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
                         }
                     });
                 } else if (i == 0) {
-                    runOnUiThread(new Runnable() {
+                    new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
-                            dialog.setMessage("将发送采摘指令，采摘完成后发快递送达~");
-                            dialog.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            TableParam param = new TableParam();
-                                            param.add("plantId", plantId + "");
-                                            param.add("userId", KeyValueTable.getObject("user", User.class).getId() + "");
-                                            String resp = Global.httpPost3("/cai/app/createCaiOrder.do", param.toString());
-                                            JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
-                                            int i = obj.getInteger("data");
-                                            if (i == 1) {
-                                                runOnUiThread(new Runnable() {
+                            int userId = KeyValueTable.getObject("user", User.class).getId();
+                            String resp = Global.httpPost3("/cai/app/isHasDefaultAddress.do", "userId=" + userId);
+                            JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                            int i = obj.getInteger("data");
+                            if (i == 1) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
+                                        dialog.setMessage("将发送采摘指令，采摘完成后发快递送达~");
+                                        dialog.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new Thread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
-                                                        dialog.setMessage("指令发送成功~");
-                                                        dialog.show();
+                                                        TableParam param = new TableParam();
+                                                        param.add("plantId", plantId + "");
+                                                        param.add("userId", KeyValueTable.getObject("user", User.class).getId() + "");
+                                                        String resp = Global.httpPost3("/cai/app/createCaiOrder.do", param.toString());
+                                                        JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
+                                                        int i = obj.getInteger("data");
+                                                        if (i == 1) {
+                                                            runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
+                                                                    dialog.setMessage("指令发送成功~");
+                                                                    dialog.show();
+                                                                }
+                                                            });
+                                                        }
                                                     }
-                                                });
+                                                }).start();
                                             }
-                                        }
-                                    }).start();
-                                }
-                            });
-                            dialog.show();
+                                        });
+                                        dialog.show();
+                                    }
+                                });
+                            } else if (i == 0) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AlertDialog.Builder dialog = new AlertDialog.Builder(PlantActivity.this);
+                                        dialog.setMessage("请先设置默认收货地址~");
+                                        dialog.show();
+                                    }
+                                });
+                            }
                         }
-                    });
+                    }).start();
                 }
             }
         }).start();
