@@ -17,6 +17,8 @@ import cn.wyh.bs.R;
 import cn.wyh.bs.activity.ActivityManager;
 import cn.wyh.bs.activity.plant.order.fragment.CaiFragment1;
 import cn.wyh.bs.activity.plant.order.fragment.CaiFragment2;
+import cn.wyh.bs.activity.plant.order.fragment.CaiFragment3;
+import cn.wyh.bs.activity.plant.order.fragment.CaiFragment4;
 import cn.wyh.bs.bean.Tab;
 
 /**
@@ -46,10 +48,10 @@ public class CaiOrderInfo extends FragmentActivity {
     }
 
     private void initTab() {
-        Tab a = new Tab("a", "已完成", 0, CaiFragment1.class);
+        Tab a = new Tab("a", "已完成", 0, CaiFragment4.class);
         Tab b = new Tab("b", "待受理", 0, CaiFragment1.class);
         Tab c = new Tab("c", "已受理", 0, CaiFragment2.class);
-        Tab d = new Tab("d", "已发货", 0, CaiFragment1.class);
+        Tab d = new Tab("d", "已发货", 0, CaiFragment3.class);
 
         List<Tab> list = new ArrayList<>();
         list.add(a);

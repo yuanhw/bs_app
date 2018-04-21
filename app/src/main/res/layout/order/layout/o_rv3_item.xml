@@ -111,12 +111,15 @@
         android:gravity="center_vertical"
         android:layout_height="35dp">
         <TextView
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:textColor="@color/white"
             android:layout_marginLeft="15dp"
             android:id="@+id/o_all_hx"
-            android:layout_width="wrap_content"
+            android:layout_width="58dp"
             android:textSize="12sp"
             android:text="确认"
-            android:layout_height="wrap_content" />
+            android:layout_height="25dp" />
     </LinearLayout>
     <LinearLayout
         android:background="@color/split"
