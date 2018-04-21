@@ -15,6 +15,10 @@ public class CaiOneDto implements Serializable {
     private String caiImg;
     private String operate;
     private Date updateTIme;
+    private String phone;
+    private Date sendTime;
+    private String address;
+    private Date finishTime;
 
     public Integer getCaiId() {
         return caiId;
@@ -70,5 +74,37 @@ public class CaiOneDto implements Serializable {
 
     public void setUpdateTIme(Date updateTIme) {
         this.updateTIme = updateTIme;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
     }
 }
