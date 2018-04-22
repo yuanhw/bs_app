@@ -127,8 +127,6 @@ public class MainActivity extends FragmentActivity{
             public void onTabChanged(String tabId) {
                 switch (tabId) {
                     case "home":
-                        //Log.i("mms_tab", "666");
-                        //location();
                         toolbar.removeAllViews();
                         toolbar.addView(views[0]);
                         break;
@@ -162,7 +160,7 @@ public class MainActivity extends FragmentActivity{
         if (tab.getTag().equals("info")) {
             ImageView show = (ImageView) view.findViewById(R.id.tab_img_show);
             this.imageView = show;
-            show.setImageResource(R.mipmap.dot);
+            //show.setImageResource(R.mipmap.dot);
         }
         return view;
     }
