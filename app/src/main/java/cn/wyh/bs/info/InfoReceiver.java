@@ -25,6 +25,7 @@ public class InfoReceiver extends TACMessagingReceiver {
     public void onRegisterResult(Context context, int errorCode, TACMessagingToken token) {
         final int id = KeyValueTable.getObject("user", User.class).getId();
         final String deviceToken = token.getTokenString();
+        //Log.i("mms_i", deviceToken);
         new Thread(new Runnable() {
             @Override
             public void run() {
