@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tencent.tac.messaging.TACMessagingService;
 
 import java.io.InputStream;
 

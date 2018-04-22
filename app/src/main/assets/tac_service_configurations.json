@@ -1,0 +1,30 @@
+{
+    "version": "1.0.0",
+    "warning": "请不要修改这个文件中的内容",
+    "project": {
+        "projectId": 100829
+    },
+    "application": {
+        "appId": 100735,
+        "packageId": "cn.wyh.bs"
+    },
+    "services": {
+        "analytics": {
+            "appKey": "Aqc100735"
+        },
+        "messaging": {
+            "appId": "2100282588",
+            "appKey": "AQR1ZDX8739H"
+        },
+        "crash": {
+            "appId": "9f63269357"
+        },
+        "payment": {
+            "offerId": "TC100735"
+        },
+        "storage": {
+            "bucket": "tac-a001-st-1256407494",
+            "region": "ap-shanghai"
+        }
+    }
+}

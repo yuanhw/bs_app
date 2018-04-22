@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,8 +18,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.inner.GeoPoint;
+import com.tencent.tac.messaging.TACMessagingService;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.activity.home.CityActivity;
@@ -32,7 +31,6 @@ import cn.wyh.bs.common.Const;
 import cn.wyh.bs.common.Global;
 import cn.wyh.bs.common.LocationUtils;
 import cn.wyh.bs.storage.KeyValueTable;
-import okhttp3.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +50,8 @@ public class MainActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         ActivityManager.addActivity(this);
         setContentView(R.layout.activity_main);
+
+        TACMessagingService.getInstance().start(this);
 
         /* 获取标题栏控件 */
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -21,7 +21,30 @@
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
+    <!-- Push service 运行需要的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 富媒体需要声明的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
+    <!-- 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名-->
+    <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.cn.wyh.bs" />
+    <permission
+        android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.cn.wyh.bs"
+        android:protectionLevel="signature">
+    </permission>
     <application
+        android:name=".InfoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -77,6 +100,11 @@
         <activity android:name=".activity.person.AddressManager"/>
         <activity android:name=".activity.person.AddAddress"/>
         <activity android:name=".activity.plant.order.CaiOrderInfo"/>
+        <receiver android:name="cn.wyh.bs.info.InfoReceiver">
+            <intent-filter>
+                <action android:name="com.tencent.tac.messaging.action.CALLBACK" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
