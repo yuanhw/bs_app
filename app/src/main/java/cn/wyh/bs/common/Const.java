@@ -8,5 +8,5 @@ public class Const {
     public static final int REQUEST_CITY_ACTIVITY_CODE = 301;
     public static final String DATE_FORMAT = "yyyy年MM月dd日";
     public static final String DATE_TIME_FORMAT = "yyyy年MM月dd日 HH点mm分";
-    public static final String PUSH_API_KEY = "TwZTGyu2ZwOH2S4XvlxpqYIl";
+    public static final String DATE_TIME_FORMAT_2 = "yyyy/MM/dd/ HH:mm";
 }

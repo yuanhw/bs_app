@@ -51,7 +51,7 @@ public class CaiAdapter4 extends RecyclerView.Adapter<CaiAdapter4.ViewHolder> {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                String resp = Global.httpPost3("/cai//web/updateStatus.do", "id=" + caiId + "&status=4");
+                                String resp = Global.httpPost3("/cai/web/updateStatus.do", "id=" + caiId + "&status=4");
                                 JSONObject obj = JSONObject.parseObject(resp, JSONObject.class);
                                 int i = obj.getInteger("data");
                                 if (i == 1) {

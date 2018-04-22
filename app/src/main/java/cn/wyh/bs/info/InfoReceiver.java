@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import com.alibaba.fastjson.JSONObject;
 import com.tencent.tac.messaging.TACMessagingReceiver;
 import com.tencent.tac.messaging.TACMessagingText;
 import com.tencent.tac.messaging.TACMessagingToken;
