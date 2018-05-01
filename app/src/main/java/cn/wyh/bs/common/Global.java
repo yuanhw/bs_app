@@ -28,7 +28,7 @@ import okhttp3.Response;
 
 public class Global {
 
-    public static final String BASE_URL= "http://10.9.154.55:8080/demo"; //本地电脑
+    public static final String BASE_URL= "http://192.168.43.43:8080/demo"; //本地电脑
 
     public static OkHttpClient.Builder builder = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS) //连接超时时间

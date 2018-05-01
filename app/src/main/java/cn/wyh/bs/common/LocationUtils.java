@@ -18,7 +18,6 @@ import java.util.Locale;
  */
 
 public class LocationUtils {
-
     private static LocationClient mLocationClient;
     private static LocationClientOption option = new LocationClientOption();
     static {
@@ -31,17 +30,26 @@ public class LocationUtils {
         option.setScanSpan(0);
         option.setOpenGps(true);
     }
-
     private LocationUtils() {
     }
-
+    /**
+     *  定位
+     * @param context
+     * @param listener
+     * @return
+     */
     public static LocationClient getLocationClient(Context context, BDAbstractLocationListener listener) {
         mLocationClient = new LocationClient(context);
         mLocationClient.setLocOption(option);
         mLocationClient.registerLocationListener(listener);mLocationClient.start();
         return mLocationClient;
     }
-
+    /**
+     * 通过城市获取坐标
+     * @param context
+     * @param str
+     * @return
+     */
     public static GeoPoint getGeoPointBystr(Context context, String str) {
         GeoPoint gpGeoPoint = null;
         if (str!=null) {
