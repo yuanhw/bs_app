@@ -28,9 +28,20 @@
                     android:gravity="center"
                     android:textSize="@dimen/text_title_size"
                     android:textColor="@color/account_line"
-                    android:text="地块面貌"/>
+                    android:text="地块监控"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
+        <LinearLayout
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bt0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="实时视频"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_marginTop="5dp"
             android:orientation="vertical"
@@ -38,23 +49,20 @@
             android:paddingLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/img1"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:id="@+id/img2"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:id="@+id/img3"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <cn.jzvd.JZVideoPlayerStandard
+                android:id="@+id/video_player1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+            <cn.jzvd.JZVideoPlayerStandard
+                android:layout_marginTop="15dp"
+                android:id="@+id/video_player2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+            <cn.jzvd.JZVideoPlayerStandard
+                android:layout_marginTop="15dp"
+                android:id="@+id/video_player3"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
