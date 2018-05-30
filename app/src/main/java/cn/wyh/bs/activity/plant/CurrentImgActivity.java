@@ -1,10 +1,12 @@
 package cn.wyh.bs.activity.plant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -50,6 +52,15 @@ public class CurrentImgActivity extends BaseActivity {
         imgs[2] = (ImageView) findViewById(R.id.img3);
         */
         //loadData();
+
+        Button bt = (Button) findViewById(R.id.bt0);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CurrentImgActivity.this, JianKongActivity.class);
+                startActivity(intent);
+            }
+        });
 
         String path = "/tillageVideo/001.mp4";
         JZVideoPlayerStandard player1 = (JZVideoPlayerStandard) findViewById(R.id.video_player1);
