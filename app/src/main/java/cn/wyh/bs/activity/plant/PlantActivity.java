@@ -68,10 +68,11 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
         /**
          * 底部三个按钮控件
          */
-        ImageView[] btList = new ImageView[3];
+        ImageView[] btList = new ImageView[4];
         btList[0] =  (ImageView) findViewById(R.id.bt1);
         btList[1] =  (ImageView) findViewById(R.id.bt2);
         btList[2] =  (ImageView) findViewById(R.id.bt3);
+        btList[3] =  (ImageView) findViewById(R.id.bt4);
         /**
          *  设置事件
          */
@@ -80,6 +81,7 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
         btList[0].setOnClickListener(this);
         btList[1].setOnClickListener(this);
         btList[2].setOnClickListener(this);
+        btList[3].setOnClickListener(this);
 
         if (isHas == 1) {
             loadData();
@@ -156,6 +158,10 @@ public class PlantActivity extends BaseActivity implements View.OnClickListener{
                 Intent intent2 = new Intent(PlantActivity.this, RecordActivity.class);
                 intent2.putExtra("plantId", plantId + "");
                 startActivity(intent2);
+                break;
+            case 6:
+                Intent intent3 = new Intent(PlantActivity.this, BlockOutStatus.class);
+                startActivity(intent3);
                 break;
         }
     }

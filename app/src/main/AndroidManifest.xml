@@ -100,6 +100,7 @@
         <activity android:name=".activity.person.AddressManager"/>
         <activity android:name=".activity.person.AddAddress"/>
         <activity android:name=".activity.plant.order.CaiOrderInfo"/>
+        <activity android:name=".activity.plant.BlockOutStatus"/>
         <receiver android:name="cn.wyh.bs.info.InfoReceiver">
             <intent-filter>
                 <action android:name="com.tencent.tac.messaging.action.CALLBACK" />
