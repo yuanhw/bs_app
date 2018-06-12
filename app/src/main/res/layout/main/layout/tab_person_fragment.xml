@@ -1,34 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"></LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:orientation="vertical"
-        android:paddingLeft="13dp"
-        android:layout_weight="2">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/person_items"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/person_return"
-            android:layout_width="90dp"
-            android:layout_height="55dp"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginLeft="40dp"
-            android:textColor="@color/colorPrimary"
-            android:text="退出登录"/>
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/account_line">
+            android:layout_height="160dp"
+            android:background="@drawable/person_bk">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:layout_weight="2">
+                    <cn.wyh.bs.custom.CircleImageView
+                        android:id="@+id/person_tou_img"
+                        android:layout_gravity="bottom"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:src="@drawable/tou_img"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/person_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:text="张三"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="余额"/>
+                <TextView
+                    android:paddingLeft="11dp"
+                    android:id="@+id/person_account"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorAccent"
+                    android:gravity="center_vertical"
+                    android:text="10000"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/account_line" />
+            <TextView
+                android:id="@+id/person_recharge"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:text="充值"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:background="@color/split">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:background="@color/split"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:paddingLeft="13dp"
+                    android:background="@color/bottom_color"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/person_items"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@color/bottom_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/person_return"
+                        android:layout_width="90dp"
+                        android:layout_height="55dp"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:layout_marginLeft="53dp"
+                        android:textColor="@color/colorPrimary"
+                        android:text="退出登录"/>
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+</ScrollView>

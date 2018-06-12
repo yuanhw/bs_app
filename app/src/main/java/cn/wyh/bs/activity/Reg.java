@@ -95,7 +95,7 @@ public class Reg extends BaseActivity{
             public void run() {
                 JSONObject request = new JSONObject();
                 request.put("userPhone", phone);
-                request.put("password", password);
+                request.put("password", Global.getMD5(password));
                 JSONObject response = Global.httpPost("/user/reg.do", request.toJSONString());
 
                 String msg;

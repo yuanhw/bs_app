@@ -1,20 +1,36 @@
 package cn.wyh.bs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.mapapi.model.inner.GeoPoint;
+import com.tencent.tac.messaging.TACMessagingService;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.home.CityActivity;
+import cn.wyh.bs.adapter.FarmAdapter;
+import cn.wyh.bs.bean.LateLySimplyFarm;
 import cn.wyh.bs.bean.Tab;
 import cn.wyh.bs.activity.fragment.*;
+import cn.wyh.bs.common.Const;
+import cn.wyh.bs.common.Global;
+import cn.wyh.bs.common.LocationUtils;
+import cn.wyh.bs.storage.KeyValueTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +51,15 @@ public class MainActivity extends FragmentActivity{
         ActivityManager.addActivity(this);
         setContentView(R.layout.activity_main);
 
+        TACMessagingService.getInstance().start(this);
+
         /* 获取标题栏控件 */
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //获取位置
+        location();
         initToolbarContext(); //实例化标题栏
         initTab(); //实例化底部菜单栏
+        //init();
     }
 
     @Override
@@ -65,8 +86,9 @@ public class MainActivity extends FragmentActivity{
         this.drop_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("mms_MainActivity", "555");
-                Toast.makeText(MainActivity.this, city.getText().toString(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, CityActivity.class);
+                intent.putExtra("cityName", city.getText().toString());
+                startActivityForResult(intent, Const.REQUEST_CITY_ACTIVITY_CODE);
             }
         });
     }
@@ -105,7 +127,6 @@ public class MainActivity extends FragmentActivity{
             public void onTabChanged(String tabId) {
                 switch (tabId) {
                     case "home":
-                        Log.i("mms_tab", "666");
                         toolbar.removeAllViews();
                         toolbar.addView(views[0]);
                         break;
@@ -139,9 +160,87 @@ public class MainActivity extends FragmentActivity{
         if (tab.getTag().equals("info")) {
             ImageView show = (ImageView) view.findViewById(R.id.tab_img_show);
             this.imageView = show;
-            show.setImageResource(R.mipmap.dot);
+            //show.setImageResource(R.mipmap.dot);
         }
         return view;
+    }
+
+    /**
+     * CityActivity返回处理
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Const.REQUEST_CITY_ACTIVITY_CODE) {
+            if (resultCode == RESULT_OK) {
+                this.city.setText(data.getStringExtra("cityName"));
+                GeoPoint pos = LocationUtils.getGeoPointBystr(MainActivity.this, data.getStringExtra("cityName"));
+                //Log.i("mms_poss", pos.toString());
+                JSONObject pos_0 = new JSONObject();
+                pos_0.put("lat", pos.getLatitudeE6());
+                pos_0.put("lng", pos.getLongitudeE6());
+                KeyValueTable.addObject("pos", pos_0);
+                Fragment v = getSupportFragmentManager().findFragmentByTag(list.get(0).getTag());
+                RecyclerView v_list = (RecyclerView) v.getActivity().findViewById(R.id.home_rv);
+                //Log.i("mms_view", v_list + " 698");
+                loadFarms(v_list);
+            }
+        }
+    }
+
+    /**
+     *  获取位置
+     */
+    private void location() {
+        LocationUtils.getLocationClient(getApplicationContext(), new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                city.setText(bdLocation.getCity());
+                JSONObject pos = new JSONObject();
+                pos.put("lat", bdLocation.getLatitude());
+                pos.put("lng", bdLocation.getLongitude());
+                KeyValueTable.addObject("pos", pos);
+                //Log.i("mms_l", bdLocation.getLatitude() + " - " + bdLocation.getLongitude());
+            }
+        });
+    }
+
+    /**
+     *  加载农场列表
+     */
+    private void loadFarms(final RecyclerView rv) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject param = KeyValueTable.getObject("pos", JSONObject.class);
+                //Log.i("mms_pa", param + " 666");
+                if (param == null) {
+                    param = new JSONObject();
+                    param.put("lat", "39.916485");
+                    param.put("lng", "116.403694");
+                }
+                JSONObject jsonObject = Global.httpPost("/farm/loadLateLyFarm.do", param.toJSONString());
+                if (jsonObject.getInteger("code") == 1) {
+                    String respStr = jsonObject.getString("respStr");
+                    JSONObject resp = (JSONObject) JSON.parse(respStr);
+                    //adapter.notifyItemRangeRemoved(0, farms.size());
+                    final List<LateLySimplyFarm> farmss = JSONArray.parseArray(resp.getString("data"), LateLySimplyFarm.class);
+                    //Log.i("farms_mms", farms.toString());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            rv.setMinimumHeight(363 * farmss.size());
+                            FarmAdapter adapter = TabHomeFragment.adapter;
+                            adapter.getFarms().clear();
+                            adapter.getFarms().addAll(farmss);
+                            rv.setAdapter(adapter);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 }

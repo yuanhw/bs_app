@@ -20,7 +20,7 @@ public class ActivityManager {
         list.remove(activity);
     }
 
-    public static void finashAll() {
+    public static void finishAll() {
         for (Activity activity : list) {
             if (!activity.isFinishing()) {
                 activity.finish();

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "27.0.1"
     defaultConfig {
         applicationId "cn.wyh.bs"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -19,16 +19,22 @@ android {
     }
     sourceSets {
         main {
+            jniLibs.srcDir 'libs'
             res.srcDirs =
                     [
+                            'src/main/res/layout/cai',
+                            'src/main/res/layout/home/layout/lease',
                             'src/main/res/layout/person',
+                            'src/main/res/layout/plant',
+                            'src/main/res/layout/order',
                             'src/main/res/layout/main',
                             'src/main/res/layout/home',
                             'src/main/res/layout',
                             'src/main/res',
                             'src/main/res/drawable',
                             'src/main/res/drawable/home',
-                            'src/main/res/drawable/main'
+                            'src/main/res/drawable/main',
+                            'src/main/res/drawable/person'
                     ]
         }
     }
@@ -46,5 +52,10 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.alibaba:fastjson:1.2.24'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.9'
+    compile 'com.tencent.tac:tac-core:1.0.0'
+    compile 'com.tencent.tac:tac-messaging:1.0.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/BaiduLBS_Android.jar')
 }

@@ -14,16 +14,29 @@ public class User implements Serializable {
     private String gender;
     private Date regTime;
     private Date loginTime;
+    private String payPassword;
+    private double account;
+    private String touImgPath;
 
     public User() {
     }
 
-    public User(String userPhone, String password, String userName, String gender, Date regTime) {
+    public User(String userPhone, String password, Date regTime) {
+        this.userPhone = userPhone;
+        this.password = password;
+        this.regTime = regTime;
+    }
+
+    public User(String userPhone, String password, String userName, String gender,
+                Date regTime, String payPassword, double account, String touImgPath) {
         this.userPhone = userPhone;
         this.password = password;
         this.userName = userName;
         this.gender = gender;
         this.regTime = regTime;
+        this.payPassword = payPassword;
+        this.account = account;
+        this.touImgPath = touImgPath;
     }
 
     public Integer getId() {
@@ -82,6 +95,30 @@ public class User implements Serializable {
         this.loginTime = loginTime;
     }
 
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
+    }
+
+    public double getAccount() {
+        return account;
+    }
+
+    public void setAccount(double account) {
+        this.account = account;
+    }
+
+    public String getTouImgPath() {
+        return touImgPath;
+    }
+
+    public void setTouImgPath(String touImgPath) {
+        this.touImgPath = touImgPath;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -92,6 +129,9 @@ public class User implements Serializable {
                 ", gender='" + gender + '\'' +
                 ", regTime=" + regTime +
                 ", loginTime=" + loginTime +
+                ", payPassword='" + payPassword + '\'' +
+                ", account=" + account +
+                ", touImgPath='" + touImgPath + '\'' +
                 '}';
     }
 }

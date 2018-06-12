@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/split"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/city_back"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/back"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/text_title_size"
+                android:textColor="@color/account_line"
+                android:text="选择城市"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:paddingLeft="20dp"
+                android:background="@color/account_line"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:text="当前城市"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:paddingLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:id="@+id/city_current"
+                    android:text="西安市"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:paddingLeft="20dp"
+                android:background="@color/account_line"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:text="服务城市"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <ListView
+                android:id="@+id/city_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+</LinearLayout>

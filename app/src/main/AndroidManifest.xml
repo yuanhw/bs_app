@@ -2,27 +2,111 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.wyh.bs">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <!--     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <!-- Push service 运行需要的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 富媒体需要声明的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
+    <!-- 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名-->
+    <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.cn.wyh.bs" />
+    <permission
+        android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.cn.wyh.bs"
+        android:protectionLevel="signature">
+    </permission>
     <application
+        android:name=".InfoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 百度AK -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="rlR80F5Gr5eVPoaloIV4bWX7RnHGYotR" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="cn.wyh.bs.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Reg"></activity>
+        <activity android:name=".activity.Reg" />
+        <activity android:name=".activity.person.PersonDetail" />
+        <activity android:name=".activity.home.CityActivity" />
+        <activity android:name=".activity.home.FarmDetailedActivity" />
+        <activity android:name=".activity.home.MapActivity"/>
+        <activity android:name=".activity.home.lease.SearchFarmActivity"/>
+        <activity android:name=".activity.home.lease.RuleFarmActivity"/>
+        <activity android:name=".activity.home.lease.OrderCreate"/>
+        <activity android:name=".activity.home.lease.OrderPayStatus"/>
+        <activity android:name=".activity.order.OrderInfo"/>
+        <activity android:name=".activity.order.RefundActivity"/>
+        <activity android:name=".activity.order.OrderComment"/>
+        <activity android:name=".activity.plant.PlantActivity"/>
+        <activity android:name=".activity.plant.SelectPlantActivity"/>
+        <activity android:name=".activity.plant.BlockDetailActivity"/>
+        <activity android:name=".activity.plant.BeginPlant"/>
+        <activity android:name=".activity.home.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.plant.OperateStatus"/>
+        <activity android:name=".activity.plant.PlantOperateStatus"/>
+        <activity android:name=".activity.plant.RecordActivity"/>
+        <activity android:name=".activity.plant.Video2Activity"/>
+        <activity android:name=".activity.plant.CurrentImgActivity"/>
+        <activity android:name=".activity.person.AddressManager"/>
+        <activity android:name=".activity.person.AddAddress"/>
+        <activity android:name=".activity.plant.order.CaiOrderInfo"/>
+        <activity android:name=".activity.plant.BlockOutStatus"/>
+        <activity android:name=".activity.plant.JianKongActivity"/>
+        <receiver android:name="cn.wyh.bs.info.InfoReceiver">
+            <intent-filter>
+                <action android:name="com.tencent.tac.messaging.action.CALLBACK" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

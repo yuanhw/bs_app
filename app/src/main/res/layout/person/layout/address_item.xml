@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15px"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收货人：王远航先生" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="13588746259" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15px"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="收货地址：" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15px"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+        <TextView
+            android:id="@+id/sing"
+            android:text="默认"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
+            android:layout_width="35dp"
+            android:layout_height="20dp" />
+        <LinearLayout
+            android:id="@+id/edit"
+            android:layout_marginLeft="140dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/edit_a"
+                android:layout_width="18dp"
+                android:layout_height="18dp" />
+            <TextView
+                android:text="编辑"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/del"
+                android:layout_width="18dp"
+                android:layout_height="18dp" />
+            <TextView
+                android:id="@+id/del"
+                android:text="删除"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/id"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:background="@color/account_line"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></LinearLayout>
+</LinearLayout>

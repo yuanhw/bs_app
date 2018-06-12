@@ -5,67 +5,106 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import cn.wyh.bs.R;
 import cn.wyh.bs.adapter.FarmAdapter;
-import cn.wyh.bs.entity.Farm;
-import cn.wyh.bs.show.AdvertImg;
-import cn.wyh.bs.show.Gv;
+import cn.wyh.bs.activity.fragment.show.TabHomeAdvert;
+import cn.wyh.bs.activity.fragment.show.TabHomeTable;
+import cn.wyh.bs.bean.LateLySimplyFarm;
+import cn.wyh.bs.common.Global;
+import cn.wyh.bs.storage.KeyValueTable;
 
+/**
+ *  首页tab
+ */
 public class TabHomeFragment extends Fragment {
 
     private final int itemHeight = 363; //列表子项大小
-    private List<Farm> farms = new ArrayList<>(); //列表数据
+    private List<LateLySimplyFarm> farms = new ArrayList<>(); //列表数据
+    private RecyclerView rv;
+    public static FarmAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //Log.i("mms_v", "1234552145");
         View view = inflater.inflate(R.layout.tab_home_fragment, container, false);
 
         //广告栏
-        AdvertImg advertImg = new AdvertImg(this.getContext(), view.findViewById(R.id.tab_home_ad));
+        TabHomeAdvert advertImg = new TabHomeAdvert(this.getContext(), view.findViewById(R.id.tab_home_ad));
         advertImg.exec();
 
         //快捷菜单栏
-        Gv gv = new Gv(this.getContext(), (GridView) view.findViewById(R.id.tab_home_gv));
+        TabHomeTable gv = new TabHomeTable(this.getContext(), (GridView) view.findViewById(R.id.tab_home_gv));
         gv.exec();
 
-        //初始化列表数据
-        initFarms();
-
         //设置recyclerView
-        RecyclerView rv = (RecyclerView) view.findViewById(R.id.home_rv);
+        rv = (RecyclerView) view.findViewById(R.id.home_rv);
         rv.removeAllViews();
         rv.removeAllViewsInLayout();
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(manager);
-        FarmAdapter adapter = new FarmAdapter(farms);
-        rv.setAdapter(adapter);
-
         //不可滚动
         rv.setNestedScrollingEnabled(false);
-
         //设置长度
-        rv.setMinimumHeight(this.itemHeight * this.farms.size());
+        //rv.setMinimumHeight(this.itemHeight * this.farms.size());
 
+        adapter = new FarmAdapter(this.getContext(),farms);
+        rv.setAdapter(adapter);
+
+        //初始化列表数据
+        initFarms();
         return view;
     }
 
+    /**
+     *  加载附近农场信息
+     */
     private void initFarms() {
-        farms.clear();
-        Random random = new Random(47);
-        for (int i=1; i <= 20; i++) {
-            Farm f = new Farm("天空农场"+i, "规格：20㎡、30㎡、1亩", "已有地主：" + (20 + i) + "人",
-                    random.nextInt(1000) + "km", R.drawable.farm1);
-            this.farms.add(f);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject param = KeyValueTable.getObject("pos", JSONObject.class);
+                //Log.i("mms_pa", param + " 666");
+                if (param == null) {
+                    param = new JSONObject();
+                    param.put("lat", "39.916485");
+                    param.put("lng", "116.403694");
+                }
+                JSONObject jsonObject = Global.httpPost("/farm/loadLateLyFarm.do", param.toJSONString());
+                if (jsonObject.getInteger("code") == 1) {
+                    String respStr = jsonObject.getString("respStr");
+                    JSONObject resp = (JSONObject) JSON.parse(respStr);
+                    //adapter.notifyItemRangeRemoved(0, farms.size());
+                    List<LateLySimplyFarm> farmss = JSONArray.parseArray(resp.getString("data"), LateLySimplyFarm.class);
+                    farms.clear();
+                    farms.addAll(farmss);
+                    //Log.i("farms_mms", farms.toString());
+                    TabHomeFragment.this.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            /*
+                            adapter.notifyItemRangeInserted(0, farms.size());
+                            */
+                            rv.setMinimumHeight(itemHeight * farms.size());
+                            adapter = new FarmAdapter(getContext(),farms);
+                            rv.setAdapter(adapter);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

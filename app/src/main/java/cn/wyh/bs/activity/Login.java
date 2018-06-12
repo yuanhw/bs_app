@@ -2,8 +2,12 @@ package cn.wyh.bs.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,10 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tencent.tac.messaging.TACMessagingService;
+
+import java.io.InputStream;
 
 import cn.wyh.bs.R;
+import cn.wyh.bs.activity.home.CityActivity;
 import cn.wyh.bs.common.Global;
+import cn.wyh.bs.common.ImgProcess;
+import cn.wyh.bs.common.PermissionUtils;
 import cn.wyh.bs.entity.User;
+import cn.wyh.bs.storage.DBHelper;
+import cn.wyh.bs.storage.KeyValueTable;
 
 public class Login extends BaseActivity {
 
@@ -59,16 +71,30 @@ public class Login extends BaseActivity {
             public void onClick(View v) {
 
                 if (validate()) {
-                    sendRequest(w_phone.getText().toString(), w_password.getText().toString());
+                    String password = w_password.getText().toString();
+                    sendRequest(w_phone.getText().toString(), Global.getMD5(password));
                 }
 
                 //测试环境，不验证，不请求
                 //sendRequest0(w_phone.getText().toString(), w_password.getText().toString());
+                /*
+                Intent intent = new Intent(Login.this, LocationTest.class);
+                startActivity(intent);
+                */
             }
         });
 
+        /* app初始设置 */
+        this.appInit();
         /* 自动登录 */
         this.init();
+    }
+
+    private void appInit() {
+        // 创建storage.db数据库
+        DBHelper.instance(Login.this, 1);
+        PermissionUtils.verifyLocationPermissions(Login.this);
+        //PermissionUtils.verifyStoragePermissions(Login.this);
     }
 
     /* 接收reg的数据*/
@@ -77,6 +103,7 @@ public class Login extends BaseActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 this.w_phone.setText(data.getStringExtra("phone"));
+                this.w_password.setText("");
                 Toast.makeText(Login.this, "注册成功，请登录", Toast.LENGTH_LONG).show();
             }
         }
@@ -97,11 +124,10 @@ public class Login extends BaseActivity {
 
     /* 自动登录*/
     private void init() {
-        SharedPreferences editor = getSharedPreferences("user", MODE_PRIVATE);
-        String phone = editor.getString("phone", "");
-        String password = editor.getString("password", "");
-        if (!phone.equals("") && !password.equals("")) {
-            this.sendRequest(phone, password);
+        User user = KeyValueTable.getObject("user", User.class);
+        //Log.i("mms_init", user + "");
+        if (user != null) {
+            this.sendRequest(user.getUserPhone(), user.getPassword());
         }
     }
 
@@ -122,20 +148,24 @@ public class Login extends BaseActivity {
             request.put("password", password);
             JSONObject response = Global.httpPost("/user/login.do", request.toJSONString());
             if (response.getInteger("code") == 1) {
-                JSONObject context = JSONObject.parseObject(response.getString("respStr"));
-                int status = context.getInteger("status");
+                JSONObject content= JSONObject.parseObject(response.getString("respStr"));
+                int status = content.getInteger("status");
                 if (status == 1) {
-                    User user = context.getObject("user", User.class);
+                    User user = content.getObject("user", User.class);
+                    /*
                     SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
                     editor.putString("phone", user.getUserPhone());
                     editor.putString("password", user.getPassword());
                     editor.apply();
+                    */
+                    KeyValueTable.addObject("user", user);
+                    loadImg(user.getTouImgPath());
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
                     finish();  //结束Login activity
                     return;
                 } else {
-                    info = context.getString("msg");
+                    info = content.getString("msg");
                 }
             } else {
                 info = response.getString("msg");
@@ -144,6 +174,25 @@ public class Login extends BaseActivity {
             Looper.prepare( );
             Toast.makeText(Login.this, info, Toast.LENGTH_LONG).show();
             Looper.loop();
+            }
+        }).start();
+    }
+
+    //加载用户头像
+    private void loadImg(final String uri) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InputStream in = null;
+                try {
+                    in = Global.upDownFile(uri);
+                    Bitmap bm = BitmapFactory.decodeStream(in);
+                    String[] path = uri.split("/");
+                    ImgProcess.saveBitmap(bm, path[path.length - 1]);
+                    in.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
     }

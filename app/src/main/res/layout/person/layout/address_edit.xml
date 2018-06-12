@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/split"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/back"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/text_title_size"
+                android:textColor="@color/account_line"
+                android:text="编辑收货地址"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+      <LinearLayout
+          android:orientation="vertical"
+          android:paddingLeft="15dp"
+          android:background="#ffffff"
+          android:paddingRight="15dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+              <TextView
+                  android:padding="10dp"
+                  android:textSize="16sp"
+                  android:layout_width="100dp"
+                  android:layout_height="wrap_content"
+                  android:text="收货人："
+                  android:layout_alignParentLeft="true" />
+              <EditText
+                  android:hint="请输入收货人姓名"
+                  android:layout_weight="1"
+                  android:id="@+id/name"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="16sp"
+                  android:padding="10dp" />
+          </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+              <TextView
+                  android:padding="10dp"
+                  android:textSize="16sp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="称呼："
+                  android:layout_alignParentLeft="true" />
+              <RadioGroup
+                  android:paddingLeft="30dp"
+                  android:orientation="horizontal"
+                  android:gravity="center_vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent" >
+                  <RadioButton
+                      android:id="@+id/man"
+                      android:text="先生"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content" />
+                  <RadioButton
+                      android:id="@+id/un_man"
+                      android:layout_marginLeft="30dp"
+                      android:text="女士"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content" />
+                  </RadioGroup>
+          </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+              <TextView
+                  android:padding="10dp"
+                  android:textSize="16sp"
+                  android:layout_width="100dp"
+                  android:layout_height="wrap_content"
+                  android:text="手机号："
+                  android:layout_alignParentLeft="true" />
+              <EditText
+                  android:hint="请输入手机号"
+                  android:layout_weight="1"
+                  android:id="@+id/phone"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="16sp"
+                  android:padding="10dp" />
+          </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+              <TextView
+                  android:padding="10dp"
+                  android:textSize="16sp"
+                  android:layout_width="100dp"
+                  android:layout_height="wrap_content"
+                  android:text="详细地址："
+                  android:layout_alignParentLeft="true" />
+              <EditText
+                  android:hint="请输入详细地址"
+                  android:layout_weight="1"
+                  android:id="@+id/address"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="16sp"
+                  android:padding="10dp" />
+          </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+              <TextView
+                  android:padding="10dp"
+                  android:textSize="16sp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="是否默认："
+                  android:layout_alignParentLeft="true" />
+            <CheckBox
+                android:id="@+id/is_default"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+          </LinearLayout>
+      </LinearLayout>
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_gravity="bottom"
+            android:id="@+id/add"
+            android:text="保存"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
